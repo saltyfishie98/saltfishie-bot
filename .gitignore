@@ -1,4 +1,7 @@
 .env
 *.code-workspace
+*.log
 
 node_modules/
+# Local Netlify folder
+.netlify

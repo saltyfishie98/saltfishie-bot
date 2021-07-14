@@ -1,7 +1,11 @@
+if (process.env.NODE_ENV === 'development') {
+	console.log('currently in dev environment');
+	const dotenv = require('dotenv');
+	dotenv.config();
+}
+
 const Discord = require('discord.js');
-const dotenv = require('dotenv');
 const { prefix } = require('./config.json');
-dotenv.config();
 
 const Client = new Discord.Client();
 Client.once('ready', () => {
@@ -15,6 +19,7 @@ Client.on('message', message => {
 	const command = args.shift().toLowerCase();
 
 	if (command === 'ping') {
+		console.log(message);
 		message.channel.send('Pong!');
 	}
 
