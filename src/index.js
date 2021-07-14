@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const { prefix } = require('./config.json');
 
 const Client = new Discord.Client();
-Client.once('ready', () => {
+Client.on('ready', () => {
 	console.log('ready');
 });
 
