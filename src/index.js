@@ -1,8 +1,5 @@
-if (process.env.NODE_ENV === 'development') {
-	console.log('currently in dev environment');
-	const dotenv = require('dotenv');
-	dotenv.config();
-}
+const dotenv = require('dotenv');
+dotenv.config();
 
 const Discord = require('discord.js');
 const { prefix } = require('./config.json');
