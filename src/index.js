@@ -1,37 +1,33 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const Express = require('express');
-const Discord = require('discord.js');
-const { prefix } = require('./config.json');
+const fetch = require('node-fetch');
 
-const app = Express();
-const port = process.env.PORT || 3000;
+const accessToken = process.env.TWITCH_ACCESS_TOKEN
 
-app.get("/", (req, res) => {
-	res.send("hello world");
-});
+const Url = "https://api.twitch.tv/helix/eventsub/subscriptions";
 
-const listener = app.listen(port, () => {
-	console.log("Your app is listening on port " + listener.address().port);
-});
-
-const Client = new Discord.Client();
-Client.on('ready', () => {
-	console.log('ready');
-});
-
-Client.on('message', message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	if (command === 'ping') {
-		console.log(message);
-		message.channel.send('Pong!');
+const Params = {
+	method: "POST",
+	headers: {
+		"Client-ID": process.env.TWITCH_CLIENT_ID,
+		"Authorization": `Bearer ${accessToken}`,
+		"Content-Type": "application/json"
+	},
+	body: {
+		version: "1",
+		type: "stream.online",
+		"condition": {
+			"broadcaster_user_id": process.env.TWITCH_BROADCASTER_ID
+		},
+		"transport": {
+			"method": "webhook",
+			"callback": "https://saltfishie-bot.herokuapp.com/webhook/streamlive",
+			"secret": process.env.TWITCH_SIGNING_SECRET
+		}
 	}
+};
 
-});
-
-Client.login(process.env.TOKEN);
+let respondData = "";
+fetch(Url, Params).then(response => { respondData = response.json() });
+console.log(respondData);
