@@ -22,7 +22,7 @@ const createSub = {
 		},
 		"transport": {
 			"method": "webhook",
-			"callback": "https://saltfishie-bot.herokuapp.com/webhook/streamlive",
+			"callback": "https://76677fb4ebdc.ngrok.io/webhook/streamlive",
 			"secret": process.env.TWITCH_SIGNING_SECRET
 		}
 	})
@@ -36,7 +36,7 @@ const deleteSub = {
 		"Content-Type": "application/json"
 	},
 	body: JSON.stringify({
-		id: "4e4293ea-9870-49bb-b1cc-3c5580c5737a"
+		id: "fc935387-1cec-4af6-a9b8-dd973e600c0e"
 	})
 };
 
@@ -49,9 +49,8 @@ const querySub = {
 };
 
 
-fetch(url, createSub)
+fetch(url, querySub)
 	.then(res => res.json())
-	.then(data => console.log(data))
 	.catch(err => console.log(err));
 
 const app = Express();
@@ -78,10 +77,7 @@ const verifyTwitchSignature = (req, res, buf, encoding) => {
 	}
 
 	const computedSig = "sha256="
-		+ crypto.createHmac("sha256", twitchSigningSecret).update(messageID + timestamp + buf).digest("hex")
-
-	console.log("messageSig: " + messageSig);
-	console.log("computedSig: " + computedSig);
+		+ crypto.createHmac("sha256", twitchSigningSecret).update(messageID + timestamp + buf).digest("hex");
 
 	if (computedSig !== messageSig) {
 		throw new Error("invalid signiture!");
@@ -90,55 +86,55 @@ const verifyTwitchSignature = (req, res, buf, encoding) => {
 		verified = true;
 	}
 };
+const Discord = require('discord.js');
+const client = new Discord.Client();
+client.login(process.env.TOKEN);
 
-const axios = require("axios").default;
+client.on('ready', () => {
+	console.log('ready');
+});
+
+const Events = require('events');
+const testAnnouce = new Events();
+
+testAnnouce.on('stream-live', () => {
+	const exampleEmbed =
+		new Discord.MessageEmbed()
+			.setTitle('Live on twitch')
+			.setURL('https://www.twitch.tv/');
+	const annouceChannel = client.channels.cache.get("863447077094031393");
+	console.log('annoucing');
+	annouceChannel.send(exampleEmbed);
+});
 
 app.use(Express.json({ verify: verifyTwitchSignature }));
 app.post("/webhook/streamlive", (req, res) => {
 	if (verified) {
 		let challenge = req.body.challenge;
 		res.status(200).send(challenge);
+		res.status(200).send(challenge);
 		console.log("Subscribed");
 		started = true
 	}
 
-	const content = ":wave: stream started!!!";
-	const avatarUrl = "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif";
-	axios.post(process.env.DISCORD_WEBHOOK_URL, {
-		content: content,
-		embeds: [
-			{
-				image: {
-					url: avatarUrl,
-				},
-			},
-		],
-	})
-		.then((discordResponse) => {
-			console.log("Success!");
-			res.status(204).send();
-		})
-		.catch((err) => console.error(`Error sending to Discord: ${err}`));
-
+	testAnnouce.emit('stream-live');
 	console.log("Stream started!");
 });
 
+const { wakeDyno } = require('heroku-keep-awake');
+const DYNO_URL = 'https://my-app.herokuapp.com';
+
 const listener = app.listen(port, () => {
+	const opts = {
+		interval: 25
+	}
+	wakeDyno(DYNO_URL, opts);
+
 	console.log("Your app is listening on port " + listener.address().port);
 });
 
-const Discord = require('discord.js');
-const { start } = require('repl');
-const Client = new Discord.Client();
-
-Client.on('ready', () => {
-	console.log('ready');
-});
-
-Client.on('message', message => {
+client.on('message', message => {
 	if (message.content === '!ping') {
 		message.channel.send('Pong!');
 	}
 });
-
-Client.login(process.env.TOKEN);
