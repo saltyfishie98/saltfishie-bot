@@ -28,6 +28,10 @@ app.post("/webhook/streamlive", (req, res) => {
 		announce.emit('stream-live');
 });
 
+app.get("/", (req, res) => {
+	res.send('hello world')
+});
+
 const listener = app.listen(port, () => {
 	const opts = { interval: 5 }
 	wakeDyno(DYNO_URL, opts);
