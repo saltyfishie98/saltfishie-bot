@@ -1,64 +1,39 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
-const Events = require('events');
-const announce = new Events();
+///////////////////////////////////////////////////////////////////////////////////////
+// const { requestAccessToken } = require("./helper/subcriptionPortal");
+// const token = requestAccessToken(process.env.TWITCH_CLIENT_ID,
+// 	process.env.TWITCH_CLIENT_SECRET).then(data => console.log(data));
+
+// const { revokeAccessToken } = require("./helper/subcriptionPortal");
+// revokeAccessToken(process.env.TWITCH_CLIENT_ID, "wxbd7kjg6pt29qz5q5j8fkpelybxmk");
 
 ///////////////////////////////////////////////////////////////////////////////////////
-const Express = require('express');
-const app = Express();
-const port = process.env.PORT || 3000;
+const { runServer, announcer } = require("./helper/expressServer");
+runServer();
 
-const { subscriptionsPortal } = require('./helper/subcriptionPortal');
-const { verifyTwitchSignature } = require('./helper/verifyTwitchSignature')
-
-const { wakeDyno } = require('./helper/herokuWake');
-
-app.use(Express.json({ verify: verifyTwitchSignature }));
-app.post("/webhook/streamup", (req, res) => {
-	let challenge = req.body.challenge;
-	res.status(200).send(challenge);
-	console.log('Express: Posted challenge');
-
-	try {
-		if (req.body.event.broadcaster_user_login === 'testBroadcaster')
-			announce.emit('test-broadcast')
-		else
-			announce.emit('streamup');
-	} catch (err) {
-		console.log(err);
-	}
-});
-
-app.get("/", (req, res) => {
-	res.send('hello world')
-});
-
-const listener = app.listen(port, () => {
-	const opts = { interval: 20 }
-	wakeDyno('https://saltfishie-bot.herokuapp.com', opts);
-	console.log("Express: Your app is listening on port " + listener.address().port);
-});
-
-//subscriptionsPortal('query');
-// subscriptionsPortal('create', "https://saltfishie-bot.herokuapp.com/webhook/streamup");
+// const { subscriptionsPortal } = require("./helper/subcriptionPortal");
+// subscriptionsPortal("query");
+// subscriptionsPortal("create", "https://saltfishie-bot.herokuapp.com/webhook/streamup");
+// subscriptionsPortal("delete", "5f90aa84-b815-4870-9121-eb6226b1061e");
 
 ///////////////////////////////////////////////////////////////////////////////////////
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
-client.on('ready', () => {
-	console.log('Discordjs: Ready!\n');
+client.on("ready", () => {
+	console.log("Discordjs: Ready!\n");
 });
 
-client.on('message', message => {
-	if (message.content === '!ping') {
-		message.channel.send('Pong!');
+client.on("message", message => {
+	if (message.content === "!ping") {
+		message.channel.send("Pong!");
 	}
 });
 
-announce.on('streamup', () => {
+announcer.on("streamup", () => {
 	const annouceChannel = client.channels.cache.get("863447077094031393");
 	annouceChannel.send({
 		embed: {
@@ -79,10 +54,10 @@ announce.on('streamup', () => {
 			}
 		}
 	});
-	console.log('testAnnouce: Announced\n');
+	console.log("testAnnouce: Announced\n");
 });
 
-announce.on('test-broadcast', () => {
+announcer.on("test-broadcast", () => {
 	const annouceChannel = client.channels.cache.get("863447077094031393");
 	annouceChannel.send({
 		embed: {
@@ -94,14 +69,7 @@ announce.on('test-broadcast', () => {
 			title: "testBroadcast",
 		}
 	});
-	console.log('testAnnouce: test Announced\n');
+	console.log("testAnnouce: test Announced\n");
 });
 
-////////////////////////////////////////////////////////////////////////////////
-
-// const { requestAccessToken } = require('./helper/subcriptionPortal');
-// const token = requestAccessToken(process.env.TWITCH_CLIENT_ID,
-// 	process.env.TWITCH_CLIENT_SECRET).then(data => console.log(data));
-
-// const { revokeAccessToken } = require('./helper/subcriptionPortal');
-// revokeAccessToken(process.env.TWITCH_CLIENT_ID, 'wxbd7kjg6pt29qz5q5j8fkpelybxmk');
+///////////////////////////////////////////////////////////////////////////////////////

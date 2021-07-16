@@ -1,8 +1,8 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
 function subscriptionsPortal(commandType, inputArg = null) {
 	let accessToken = process.env.TWITCH_ACCESS_TOKEN;
-	let url = 'https://api.twitch.tv/helix/eventsub/subscriptions';
+	let url = "https://api.twitch.tv/helix/eventsub/subscriptions";
 
 	const createSub = {
 		method: "POST",
@@ -48,30 +48,28 @@ function subscriptionsPortal(commandType, inputArg = null) {
 	const httpFetch = (command) => {
 		fetch(url, command)
 			.then(res => res.json())
-			.then(data => { console.log('\nhttpFetch:'); console.log(data); console.log('\n'); })
+			.then(data => { console.log("\nhttpFetch:"); console.log(data); console.log("\n"); })
 			.catch(err => console.log(err));
 	}
 
-	let inputCommand;
-	if (commandType === 'create') {
-		if (inputArg !== null) {
-			httpFetch(createSub);
-		} else {
-			throw new Error('createSub Error: No specified url');
-		}
+	switch (commandType) {
+		case "create":
+			if (inputArg !== null) httpFetch(createSub);
+			else throw new Error("createSub Error: No specified url");
+			break;
 
-	} else if (commandType === 'delete') {
-		if (inputArg !== null) {
-			httpFetch(deleteSub);
-		} else {
-			throw new Error('deleteSub Error: No specified id');
-		}
+		case "delete":
+			if (inputArg !== null) httpFetch(deleteSub);
+			else throw new Error("deleteSub Error: No specified id");
+			break;
 
-	} else if (commandType === 'query') {
-		httpFetch(querySub);
+		case "query":
+			httpFetch(querySub);
+			break;
 
-	} else {
-		throw new Error('subscriptionsPortal: Invalid command');
+		default:
+			throw new Error("subscriptionsPortal: Invalid command");
+			break;
 	}
 }
 
@@ -99,9 +97,9 @@ function revokeAccessToken(clientId, accessToken) {
 	axios.post(url)
 		.then(res => {
 			if (res.status !== 200) {
-				throw new Error('revokeAccessToken:'.red + ' response code not 200');
+				throw new Error("revokeAccessToken:".red + " response code not 200");
 			} else {
-				console.log('revokeAccessToken: Success!'.green);
+				console.log("revokeAccessToken: Success!".green);
 			}
 		})
 		.catch(err => console.log(err.response.data));

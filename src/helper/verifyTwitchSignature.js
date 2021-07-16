@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 const twitchSigningSecret = process.env.TWITCH_SIGNING_SECRET;
 
@@ -23,9 +23,6 @@ function verifyTwitchSignature(req, res, buf, encoding) {
 		+ crypto.createHmac("sha256", twitchSigningSecret)
 			.update(messageID + timestamp + buf)
 			.digest("hex");
-
-	console.log(messageSig);
-	console.log(computedSig);
 
 	if (computedSig !== messageSig) {
 		throw new Error("verifyTwitchSignature: Invalid signiture!");
