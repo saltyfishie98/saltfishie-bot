@@ -2,6 +2,9 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 dotenv.config();
 
+const Events = require('events');
+const announce = new Events();
+
 ///////////////////////////////////////////////////////////////////////////////////////
 const Express = require('express');
 const app = Express();
@@ -18,16 +21,20 @@ app.post("/webhook/streamlive", (req, res) => {
 	let challenge = req.body.challenge;
 	res.status(200).send(challenge);
 	console.log('Express: '.yellow + 'Posted challenge');
-	testAnnounce.emit('stream-live');
+
+	if (req.body.event.broadcaster_user_login === 'testBroadcaster')
+		announce.emit('test-broadcast')
+	else
+		announce.emit('stream-live');
 });
 
 const listener = app.listen(port, () => {
-	const opts = { interval: 10 }
+	const opts = { interval: 5 }
 	wakeDyno(DYNO_URL, opts);
 	console.log("Express: ".cyan + "Your app is listening on port " + listener.address().port);
 });
 
-// subscriptionsPortal('query');
+//subscriptionsPortal('query');
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const Discord = require('discord.js');
@@ -44,9 +51,7 @@ client.on('message', message => {
 	}
 });
 
-const Events = require('events');
-const testAnnounce = new Events();
-testAnnounce.on('stream-live', () => {
+announce.on('stream-live', () => {
 	const annouceChannel = client.channels.cache.get("863447077094031393");
 	annouceChannel.send({
 		embed: {
@@ -68,4 +73,19 @@ testAnnounce.on('stream-live', () => {
 		}
 	});
 	console.log('testAnnouce: '.yellow + 'Announced\n');
+});
+
+announce.on('test-broadcast', () => {
+	const annouceChannel = client.channels.cache.get("863447077094031393");
+	annouceChannel.send({
+		embed: {
+			color: 3447003,
+			author: {
+				name: client.user.username,
+				icon_url: client.user.displayAvatarURL()
+			},
+			title: "testBroadcast",
+		}
+	});
+	console.log('testAnnouce: '.yellow + 'test Announced\n');
 });
