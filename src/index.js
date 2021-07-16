@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-const colors = require('colors');
 dotenv.config();
 
 const Events = require('events');
@@ -14,18 +13,21 @@ const { subscriptionsPortal } = require('./helper/subcriptionPortal');
 const { verifyTwitchSignature } = require('./helper/verifyTwitchSignature')
 
 const { wakeDyno } = require('./helper/herokuWake');
-const DYNO_URL = 'https://my-app.herokuapp.com';
 
 app.use(Express.json({ verify: verifyTwitchSignature }));
-app.post("/webhook/streamlive", (req, res) => {
+app.post("/webhook/streamup", (req, res) => {
 	let challenge = req.body.challenge;
 	res.status(200).send(challenge);
-	console.log('Express: '.yellow + 'Posted challenge');
+	console.log('Express: Posted challenge');
 
-	if (req.body.event.broadcaster_user_login === 'testBroadcaster')
-		announce.emit('test-broadcast')
-	else
-		announce.emit('stream-live');
+	try {
+		if (req.body.event.broadcaster_user_login === 'testBroadcaster')
+			announce.emit('test-broadcast')
+		else
+			announce.emit('streamup');
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 app.get("/", (req, res) => {
@@ -33,12 +35,13 @@ app.get("/", (req, res) => {
 });
 
 const listener = app.listen(port, () => {
-	const opts = { interval: 5 }
-	wakeDyno(DYNO_URL, opts);
-	console.log("Express: ".cyan + "Your app is listening on port " + listener.address().port);
+	const opts = { interval: 20 }
+	wakeDyno('https://saltfishie-bot.herokuapp.com', opts);
+	console.log("Express: Your app is listening on port " + listener.address().port);
 });
 
 //subscriptionsPortal('query');
+// subscriptionsPortal('create', "https://saltfishie-bot.herokuapp.com/webhook/streamup");
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const Discord = require('discord.js');
@@ -46,7 +49,7 @@ const client = new Discord.Client();
 client.login(process.env.TOKEN);
 
 client.on('ready', () => {
-	console.log('Discordjs: '.cyan + 'Ready!\n');
+	console.log('Discordjs: Ready!\n');
 });
 
 client.on('message', message => {
@@ -55,7 +58,7 @@ client.on('message', message => {
 	}
 });
 
-announce.on('stream-live', () => {
+announce.on('streamup', () => {
 	const annouceChannel = client.channels.cache.get("863447077094031393");
 	annouceChannel.send({
 		embed: {
@@ -76,7 +79,7 @@ announce.on('stream-live', () => {
 			}
 		}
 	});
-	console.log('testAnnouce: '.yellow + 'Announced\n');
+	console.log('testAnnouce: Announced\n');
 });
 
 announce.on('test-broadcast', () => {
@@ -91,5 +94,14 @@ announce.on('test-broadcast', () => {
 			title: "testBroadcast",
 		}
 	});
-	console.log('testAnnouce: '.yellow + 'test Announced\n');
+	console.log('testAnnouce: test Announced\n');
 });
+
+////////////////////////////////////////////////////////////////////////////////
+
+// const { requestAccessToken } = require('./helper/subcriptionPortal');
+// const token = requestAccessToken(process.env.TWITCH_CLIENT_ID,
+// 	process.env.TWITCH_CLIENT_SECRET).then(data => console.log(data));
+
+// const { revokeAccessToken } = require('./helper/subcriptionPortal');
+// revokeAccessToken(process.env.TWITCH_CLIENT_ID, 'wxbd7kjg6pt29qz5q5j8fkpelybxmk');

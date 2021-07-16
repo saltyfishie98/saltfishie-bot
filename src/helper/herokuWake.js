@@ -1,12 +1,12 @@
-const fetch = require('node-fetch');
+const axios = require("axios").default;
 
 const wakeDyno = (url, options = {}) => {
 	const { interval = 29, logging = true } = options;
 	const milliseconds = interval * 60000;
 
 	setTimeout(() => {
-		fetch(url)
-			.then(() => logging && console.log('Successfully woke the dyno'))
+		axios.get(url)
+			.then((res) => logging && console.log(res.statusText))
 			.catch(() => logging && console.log('Error attempting to wake the dyno'))
 			.finally(() => wakeDyno(url, options));
 

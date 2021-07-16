@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const colors = require('colors');
 
 const twitchSigningSecret = process.env.TWITCH_SIGNING_SECRET;
 
@@ -25,10 +24,13 @@ function verifyTwitchSignature(req, res, buf, encoding) {
 			.update(messageID + timestamp + buf)
 			.digest("hex");
 
+	console.log(messageSig);
+	console.log(computedSig);
+
 	if (computedSig !== messageSig) {
-		throw new Error("verifyTwitchSignature: ".red + "Invalid signiture!");
+		throw new Error("verifyTwitchSignature: Invalid signiture!");
 	} else {
-		console.log("verifyTwitchSignature: ".yellow + "verification success");
+		console.log("verifyTwitchSignature: verification success");
 	}
 };
 

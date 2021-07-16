@@ -48,7 +48,7 @@ function subscriptionsPortal(commandType, inputArg = null) {
 	const httpFetch = (command) => {
 		fetch(url, command)
 			.then(res => res.json())
-			.then(data => { console.log('\nhttpFetch:'.yellow); console.log(data); console.log('\n'); })
+			.then(data => { console.log('\nhttpFetch:'); console.log(data); console.log('\n'); })
 			.catch(err => console.log(err));
 	}
 
@@ -75,4 +75,36 @@ function subscriptionsPortal(commandType, inputArg = null) {
 	}
 }
 
-module.exports = { subscriptionsPortal };
+async function requestAccessToken(clientId, clientSecret) {
+	const url = "https://id.twitch.tv/oauth2/token"
+	const Params = {
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			client_id: clientId,
+			client_secret: clientSecret,
+			grant_type: "client_credentials"
+		}),
+		method: "POST"
+	}
+
+	return await fetch(url, Params)
+		.then(response => access_token = response.json())
+		.then(data => { return data; })
+		.catch(err => console.log(err));
+}
+
+const axios = require("axios").default;
+function revokeAccessToken(clientId, accessToken) {
+	const url = `https://id.twitch.tv/oauth2/revoke?client_id=${clientId}&token=${accessToken}`;
+	axios.post(url)
+		.then(res => {
+			if (res.status !== 200) {
+				throw new Error('revokeAccessToken:'.red + ' response code not 200');
+			} else {
+				console.log('revokeAccessToken: Success!'.green);
+			}
+		})
+		.catch(err => console.log(err.response.data));
+}
+
+module.exports = { subscriptionsPortal, requestAccessToken, revokeAccessToken };
