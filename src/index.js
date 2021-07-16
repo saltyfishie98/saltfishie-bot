@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 const { subscriptionsPortal } = require('./helper/subcriptionPortal');
 const { verifyTwitchSignature } = require('./helper/verifyTwitchSignature')
 
-const { wakeDyno } = require('heroku-keep-awake');
+const { wakeDyno } = require('./helper/herokuWake');
 const DYNO_URL = 'https://my-app.herokuapp.com';
 
 app.use(Express.json({ verify: verifyTwitchSignature }));
@@ -22,7 +22,7 @@ app.post("/webhook/streamlive", (req, res) => {
 });
 
 const listener = app.listen(port, () => {
-	const opts = { interval: 1 }
+	const opts = { interval: 20 }
 	wakeDyno(DYNO_URL, opts);
 	console.log("Express: ".cyan + "Your app is listening on port " + listener.address().port);
 });
