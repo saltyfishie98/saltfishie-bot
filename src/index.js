@@ -22,7 +22,7 @@ app.post("/webhook/streamlive", (req, res) => {
 });
 
 const listener = app.listen(port, () => {
-	const opts = { interval: 20 }
+	const opts = { interval: 10 }
 	wakeDyno(DYNO_URL, opts);
 	console.log("Express: ".cyan + "Your app is listening on port " + listener.address().port);
 });
