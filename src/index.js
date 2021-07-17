@@ -51,8 +51,8 @@ const client = new Discord.Client();
 const benWebhook = "https://discord.com/api/webhooks/865601089603371058/PTC4MyH45biOhsDdFqXNxvy60F53zAPit0PWwlHaNqAJu4evhkP13nCgAod1HIji1jqA";
 
 const greetings = [
-	"**Hi friends!** ",
-	"**ANNOUNCEMENT!!! ANNOUNCEMENT!!!** ",
+	"**Hi friends!**   👋👋👋 ",
+	"📢📢📢   **ANNOUNCEMENT!!! ANNOUNCEMENT!!!**   📢📢📢 ",
 	"**Yoo... Wassup...!** "
 ];
 
@@ -130,7 +130,7 @@ announcer.on("ben-streamup", () => {
 		let embedMessage = {
 			color: 15844367,
 			title: greetings[Math.floor(Math.random() * greetings.length)],
-			description: "Catch Ben on his stream on [***__Twitch__*** ](https://www.twitch.tv/benangz**)!!! Let's hang out!",
+			description: "Catch Ben on his stream on [👉***__Twitch__*** ](https://www.twitch.tv/benangz**)!!! Let's hang out!",
 
 			fields: [
 				{
