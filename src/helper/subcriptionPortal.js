@@ -124,6 +124,23 @@ class subscriptionsPortal {
 			headers: { Authorization: `OAuth ${accessToken}` }
 		}).then(res => { console.log(res.data) }).catch(err => console.log(err.response.data));
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	async queryChannelInfo(
+		broadcastId = this.twitchBroadcastId,
+		accessToken = this.twitchAccessToken,
+		clientId = this.twitchClientId) {
+		const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcastId}`;
+
+		return axios({
+			method: 'get',
+			url: url,
+			headers: {
+				"Authorization": `Bearer ${accessToken}`,
+				"Client-Id": clientId
+			}
+		})
+	}
 }
 
 module.exports = { subscriptionsPortal };
