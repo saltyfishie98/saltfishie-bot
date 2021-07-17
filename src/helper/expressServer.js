@@ -74,8 +74,8 @@ function runServer(twitchSigningSecret) {
 	});
 
 	var path = require("path");
-	app.get("/assets/benang.gif", (req, res) => {
-		res.sendFile(path.join(__dirname, "../../assets", "benang.gif"))
+	app.get("/assets/benangV1.gif", (req, res) => {
+		res.sendFile(path.join(__dirname, "../../assets", "benangV1.gif"))
 	});
 }
 

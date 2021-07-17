@@ -145,7 +145,7 @@ announcer.on("ben-streamup", () => {
 			],
 
 			image: {
-				url: "https://saltfishie-bot.herokuapp.com/assets/benang.gif",
+				url: "https://saltfishie-bot.herokuapp.com/assets/benangV1.gif",
 				inline: true
 			},
 		};
