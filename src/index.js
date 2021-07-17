@@ -130,7 +130,7 @@ announcer.on("ben-streamup", () => {
 		let embedMessage = {
 			color: 15844367,
 			title: greetings[Math.floor(Math.random() * greetings.length)],
-			description: "Catch Ben on his stream on [👉***__Twitch__*** ](https://www.twitch.tv/benangz**)!!! Let's hang out!",
+			description: "Catch Ben on his stream on [👉***__Twitch__*** ](https://www.twitch.tv/benangz)!!! Let's hang out!",
 
 			fields: [
 				{
