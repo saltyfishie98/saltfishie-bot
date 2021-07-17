@@ -57,6 +57,8 @@ function runServer(twitchSigningSecret) {
 					break;
 
 				default:
+					announcer.emit("streamup");
+					announcer.emit("ben-streamup");
 					announcer.emit("test-broadcast");
 					break;
 			}
