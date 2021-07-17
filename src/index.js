@@ -1,75 +1,45 @@
+const axios = require("axios").default;
 const dotenv = require("dotenv");
 dotenv.config();
 
 ///////////////////////////////////////////////////////////////////////////////////////
-// const { requestAccessToken } = require("./helper/subcriptionPortal");
-// const token = requestAccessToken(process.env.TWITCH_CLIENT_ID,
-// 	process.env.TWITCH_CLIENT_SECRET).then(data => console.log(data));
+const twitchSigningSecret = process.env.TWITCH_SIGNING_SECRET;
+const twitchBroadcastId = process.env.TWITCH_BROADCASTER_ID;
+const twitchAccessToken = process.env.TWITCH_ACCESS_TOKEN;
+const twitchClientId = process.env.TWITCH_CLIENT_ID;
 
-// const { revokeAccessToken } = require("./helper/subcriptionPortal");
-// revokeAccessToken(process.env.TWITCH_CLIENT_ID, "wxbd7kjg6pt29qz5q5j8fkpelybxmk");
+const benTwitchSigningSecret = process.env.BEN_TWITCH_SIGNING_SECRET;
+const benTwitchBroadcastId = process.env.BEN_TWITCH_BROADCASTER_ID;
+const benTwitchAccessToken = process.env.BEN_TWITCH_ACCESS_TOKEN;
+const benTwitchClientId = process.env.BEN_TWITCH_CLIENT_ID;
 
-///////////////////////////////////////////////////////////////////////////////////////
-const { runServer, announcer } = require("./helper/expressServer");
-runServer();
+const { subscriptionsPortal } = require("./helper/subcriptionPortal")
+const { runServer } = require("./helper/expressServer");
+const { runBot } = require("./helper/bot")
 
-// const { subscriptionsPortal } = require("./helper/subcriptionPortal");
-// subscriptionsPortal("query");
-// subscriptionsPortal("create", "https://saltfishie-bot.herokuapp.com/webhook/streamup");
-// subscriptionsPortal("delete", "5f90aa84-b815-4870-9121-eb6226b1061e");
+const myPortal = new subscriptionsPortal(
+	twitchAccessToken, twitchClientId, twitchBroadcastId, twitchSigningSecret
+);
+// myPortal.revokeAccessToken();
+// myPortal.queryAccessToken();
+// myPortal.subscription('query');
+// myPortal.subscription("delete", "cf90930c-5ba6-464d-aad0-e3c4f5808ad2");
+// myPortal.subscription("create", "https://66ecb6590d8c.ngrok.io/webhook/streamup");
 
-///////////////////////////////////////////////////////////////////////////////////////
-const Discord = require("discord.js");
-const client = new Discord.Client();
-client.login(process.env.TOKEN);
+const benPortal = new subscriptionsPortal(
+	benTwitchAccessToken, benTwitchClientId, benTwitchBroadcastId, benTwitchSigningSecret
+);
+// benPortal.queryAccessToken();
+// benPortal.subscription('query');
+// benPortal.subscription("delete", "");
+// benPortal.subscription("create", "https://66ecb6590d8c.ngrok.io/webhook/streamup");
 
-client.on("ready", () => {
-	console.log("Discordjs: Ready!\n");
-});
+const signingSecretArry = [
+	benPortal.twitchSigningSecret,
+	myPortal.twitchSigningSecret
+]
 
-client.on("message", message => {
-	if (message.content === "!ping") {
-		message.channel.send("Pong!");
-	}
-});
-
-announcer.on("streamup", () => {
-	const annouceChannel = client.channels.cache.get("863447077094031393");
-	annouceChannel.send({
-		embed: {
-			color: 3447003,
-			author: {
-				name: client.user.username,
-				icon_url: client.user.displayAvatarURL()
-			},
-			title: "Stream going live",
-			thumbnail: {
-				url: "https://static-cdn.jtvnw.net/jtv_user_pictures/4430880f-aff9-4188-88e8-e52f7f67e81f-profile_image-70x70.png"
-			},
-			description: "Check it out [here](https://www.twitch.tv/benangz)",
-			timestamp: new Date(),
-			footer: {
-				icon_url: client.user.displayAvatarURL(),
-				text: "© Example"
-			}
-		}
-	});
-	console.log("testAnnouce: Announced\n");
-});
-
-announcer.on("test-broadcast", () => {
-	const annouceChannel = client.channels.cache.get("863447077094031393");
-	annouceChannel.send({
-		embed: {
-			color: 3447003,
-			author: {
-				name: client.user.username,
-				icon_url: client.user.displayAvatarURL()
-			},
-			title: "testBroadcast",
-		}
-	});
-	console.log("testAnnouce: test Announced\n");
-});
+runServer(signingSecretArry);
+runBot()
 
 ///////////////////////////////////////////////////////////////////////////////////////
