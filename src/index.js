@@ -16,14 +16,14 @@ const benTwitchClientId = process.env.BEN_TWITCH_CLIENT_ID;
 const { subscriptionsPortal } = require("./helper/subcriptionPortal")
 const { runServer, announcer } = require("./helper/expressServer");
 
-// const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhook/streamup";
+const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhook/streamup";
 
 const myPortal = new subscriptionsPortal(
 	twitchAccessToken, twitchClientId, twitchBroadcastId, twitchSigningSecret
 );
 // myPortal.queryAccessToken();
 // myPortal.subscription('query');
-// myPortal.subscription("delete", "2f7b045e-9bcd-40fd-b7dd-f37aa3c0534b");
+// myPortal.subscription("delete", "");
 // myPortal.subscription("create", registerSubUrl);
 
 const benPortal = new subscriptionsPortal(
@@ -32,7 +32,7 @@ const benPortal = new subscriptionsPortal(
 // benPortal.queryAccessToken();
 // benPortal.subscription('query');
 // benPortal.subscription("delete", "");
-// benPortal.subscription("create", "");
+// benPortal.subscription("create", registerSubUrl);
 
 // checkChannelData();
 
@@ -103,13 +103,15 @@ announcer.on("streamup", () => {
 				embed: embedMessage
 			}).then(console.log("Annoucer: Announced streamup"));
 		});
+
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {
-// 	let res = await (benPortal.queryChannelInfo());
+// 	let res = await (myPortal.queryChannelInfo());
 // 	console.log(res.data.data[res.data.data.length - 1]);
 // }
+// checkChannelData()
 
 announcer.on("ben-streamup", () => {
 	const fetchUser = async () => {
@@ -131,7 +133,6 @@ announcer.on("ben-streamup", () => {
 			description: "Catch Ben on his stream on [***__Twitch__*** ](https://www.twitch.tv/benangz**)!!F Let's hang out!",
 
 			fields: [
-				{ name: '\u200B', value: '\u200B' },
 				{
 					name: "Currently streaming: ",
 					value: `${channelData.game_name}‎‎‎‎‏‏`

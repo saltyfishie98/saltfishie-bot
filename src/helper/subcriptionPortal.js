@@ -22,7 +22,7 @@ class subscriptionsPortal {
 			},
 			body: JSON.stringify({
 				version: "1",
-				type: "stream.online",
+				type: "channel.update",
 				"condition": {
 					"broadcaster_user_id": this.twitchBroadcastId
 				},
