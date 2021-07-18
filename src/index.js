@@ -32,9 +32,7 @@ const benPortal = new subscriptionsPortal(
 // benPortal.queryAccessToken();
 // benPortal.subscription('query');
 // benPortal.subscription("delete", "");
-// benPortal.subscription("create", registerSubUrl);
-
-// checkChannelData();
+// benPortal.subscription("create", registerSubUrl, "stream.offline");
 
 const signingSecretArry = [
 	benPortal.twitchSigningSecret,
@@ -108,7 +106,7 @@ announcer.on("streamup", () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {
-// 	let res = await (myPortal.queryChannelInfo());
+// 	let res = await (benPortal.queryChannelInfo());
 // 	console.log(res.data.data[res.data.data.length - 1]);
 // }
 // checkChannelData()
@@ -152,7 +150,7 @@ announcer.on("ben-streamup", () => {
 		};
 
 		axios.post(benWebhook, {
-			content: "Beep Boop :robot:",
+			content: "Beep.. Boop..		 :robot:",
 			embeds: [embedMessage]
 
 		}).then(console.log("Annoucer: Announced ben-streamup")).catch(err => console.log(err.data));

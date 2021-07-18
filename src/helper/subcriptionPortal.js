@@ -10,7 +10,7 @@ class subscriptionsPortal {
 		this.twitchSigningSecret = twitchSigningSecret;
 	}
 
-	subscription(commandType, inputArg = null) {
+	subscription(commandType, inputArg = null, subscribeType = "stream.online") {
 		let url = "https://api.twitch.tv/helix/eventsub/subscriptions";
 
 		const createSub = {
@@ -22,7 +22,7 @@ class subscriptionsPortal {
 			},
 			body: JSON.stringify({
 				version: "1",
-				type: "channel.update",
+				type: subscribeType,
 				"condition": {
 					"broadcaster_user_id": this.twitchBroadcastId
 				},
