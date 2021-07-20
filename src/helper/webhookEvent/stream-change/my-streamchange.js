@@ -7,8 +7,6 @@ async function announceMyStreamChange(client) {
 	announcer.on("my-streamchange", (name, title) => {
 		const annouceChannel = client.channels.cache.get("863447077094031393");
 
-		const imgUrl = "https://media.giphy.com/media/4zSgJWt5RQ2yQ5j4hj/giphy.gif";
-
 		client.users.fetch("335651941671763969") // ben profile
 			.then(profile => {
 				const embedMessage = {
@@ -19,9 +17,6 @@ async function announceMyStreamChange(client) {
 					color: 3447003,
 					title: name,
 					description: title,
-					image: {
-						url: imgUrl
-					}
 				};
 
 				annouceChannel.send({

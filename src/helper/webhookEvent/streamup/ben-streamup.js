@@ -2,7 +2,8 @@ const axios = require("axios").default;
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { announcer, benPortal } = require("../eventType");
+const { announcer } = require("../eventType");
+const { benPortal } = require("../../subcriptionPortal");
 
 const greetings = [
 	"**Hi friends!**   👋👋👋 ",
@@ -10,7 +11,7 @@ const greetings = [
 	"**Yoo... Wassup...!** "
 ];
 
-async function announceBenStreamup(client) {
+async function announceBenStreamup() {
 	announcer.on("ben-streamup", () => {
 
 		async function run() {
@@ -28,11 +29,11 @@ async function announceBenStreamup(client) {
 						value: `${channelData.game_name}‎‎‎‎‏‏`
 					},
 					{
-						name: `‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ `,
+						name: "‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ",
 						value: `‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎"*${channelData.title}*"‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏`,
 						inline: true
 					},
-					{ name: '\u200B', value: '\u200B' },
+					{ name: "\u200B", value: "\u200B" },
 				],
 
 				image: {

@@ -4,6 +4,8 @@ dotenv.config();
 const Events = require("events");
 const announcer = new Events();
 
+const { myPortal } = require("../subcriptionPortal");
+
 // Streamup
 ///////////////////////////////////////////////////////////////////////////////////////
 function streamup(reqBody) {
@@ -24,7 +26,6 @@ function streamup(reqBody) {
 	}
 }
 
-
 // Stream-change
 ///////////////////////////////////////////////////////////////////////////////////////
 async function toEmitStreamChange(channelName, broadcasterId, eventId) {
@@ -41,7 +42,7 @@ async function toEmitStreamChange(channelName, broadcasterId, eventId) {
 			}
 			found = true;
 		}
-		if (i > myData.data.data.length) throw new error("can't find id");
+		if (i > myData.data.data.length) throw new Error("can't find id");
 		i++;
 	}
 }
@@ -65,10 +66,12 @@ function streamChange(reqBody) {
 			break;
 
 		default:
-			toEmitStreamChange
-				("saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange");
-			toEmitStreamChange
-				("benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange");
+			toEmitStreamChange(
+				"saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange");
+
+			toEmitStreamChange(
+				"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange");
+
 			announcer.emit("test-streamchange");
 			break;
 	}

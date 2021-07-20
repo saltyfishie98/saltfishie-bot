@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { announcer, myPortal } = require("../eventType");
+const { announcer } = require("../eventType");
 
 const greetings = [
 	"**Hi friends!**   👋👋👋 ",

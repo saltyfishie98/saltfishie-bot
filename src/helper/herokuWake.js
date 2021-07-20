@@ -7,7 +7,7 @@ const wakeDyno = (url, options = {}) => {
 	setTimeout(() => {
 		axios.get(url)
 			.then((res) => logging && console.log(res.statusText))
-			.catch(() => logging && console.log('Error attempting to wake the dyno'))
+			.catch(() => logging && console.log("Error attempting to wake the dyno"))
 			.finally(() => wakeDyno(url, options));
 
 	}, milliseconds);

@@ -2,7 +2,7 @@ const axios = require("axios").default;
 
 const { announcer } = require("../eventType");
 
-module.exports = async (client) => {
+async function announceTestStreamup(client){
 	announcer.on("test-streamup", () => {
 		const annouceChannel = client.channels.cache.get("863447077094031393");
 
@@ -28,3 +28,5 @@ module.exports = async (client) => {
 		}).then(console.log("Annoucer: Announced test-streamup")).catch(err => console.log(err));
 	});
 }
+
+module.exports = { announceTestStreamup };

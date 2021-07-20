@@ -11,7 +11,7 @@ const crypto = require("crypto");
 function runServer(twitchSigningSecret) {
 	let validSignature = false;
 
-	function verifyTwitchSignature(req, res, buf, encoding) {
+	function verifyTwitchSignature(req, res, buf) {
 		const messageID = req.headers["twitch-eventsub-message-id"];
 		const timestamp = req.headers["twitch-eventsub-message-timestamp"];
 		const messageSig = req.headers["twitch-eventsub-message-signature"];
@@ -55,16 +55,16 @@ function runServer(twitchSigningSecret) {
 	});
 
 	app.get("/", (req, res) => {
-		res.send("hello world")
+		res.send("hello world");
 	});
 
 	app.get("/assets/benangV1.gif", (req, res) => {
-		res.sendFile(path.join(__dirname, "../../assets", "benangV1.gif"))
+		res.sendFile(path.join(__dirname, "../../assets", "benangV1.gif"));
 	});
 }
 
 const listener = app.listen(port, () => {
-	const opts = { interval: 20 }
+	const opts = { interval: 20 };
 	wakeDyno("https://saltfishie-bot.herokuapp.com", opts);
 	console.log("Express: Your app is listening on port " + listener.address().port);
 });

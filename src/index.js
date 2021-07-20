@@ -5,15 +5,6 @@ dotenv.config();
 const { runServer } = require("./helper/expressServer");
 const { benPortal, myPortal } = require("./helper/subcriptionPortal");
 
-const announceTestStreamup = require("./helper/webhookEvent/streamup/test-streamup");
-const announceTestStreamchange = require("./helper/webhookEvent/stream-change/test-streamchange");
-
-const { announceBenStreamup } = require("./helper/webhookEvent/streamup/ben-streamup");
-const { announceBenStreamChange } = require("./helper/webhookEvent/stream-change/ben-streamchange");
-
-const { announceMyStreamup } = require("./helper/webhookEvent/streamup/my-streamup");
-const { announceMyStreamChange } = require("./helper/webhookEvent/stream-change/my-streamchange");
-
 const signingSecretArry = [
 	benPortal.twitchSigningSecret,
 	myPortal.twitchSigningSecret
@@ -21,7 +12,6 @@ const signingSecretArry = [
 
 runServer(signingSecretArry);
 
-///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -39,6 +29,18 @@ client.on("message", message => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
+const { 
+	announceMyStreamChange,
+	announceBenStreamChange,
+	announceTestStreamchange 
+} = require("./helper/webhookEvent/stream-change");
+
+const {
+	announceMyStreamup,
+	announceBenStreamup,
+	announceTestStreamup
+} = require("./helper/webhookEvent/streamup");
+
 announceBenStreamup(client);
 announceMyStreamup(client);
 announceTestStreamup(client);
