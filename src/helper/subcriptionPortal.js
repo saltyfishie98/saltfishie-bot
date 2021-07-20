@@ -59,7 +59,7 @@ class subscriptionsPortal {
 				.then(res => res.json())
 				.then(data => { console.log("\nhttpFetch:"); console.log(data); console.log("\n"); })
 				.catch(err => console.log(err));
-		}
+		};
 
 		switch (commandType) {
 			case "create":
@@ -78,13 +78,12 @@ class subscriptionsPortal {
 
 			default:
 				throw new Error("subscriptionsPortal: Invalid command");
-				break;
 		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	async requestAccessToken(clientId = this.twitchClientId, clientSecret = this.twitchSigningSecret) {
-		const url = "https://id.twitch.tv/oauth2/token"
+		const url = "https://id.twitch.tv/oauth2/token";
 		const Params = {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -93,10 +92,10 @@ class subscriptionsPortal {
 				grant_type: "client_credentials"
 			}),
 			method: "POST"
-		}
+		};
 
 		return await fetch(url, Params)
-			.then(response => access_token = response.json())
+			.then(response => response.json())
 			.then(data => { return data; })
 			.catch(err => console.log(err));
 	}
@@ -119,10 +118,10 @@ class subscriptionsPortal {
 	queryAccessToken(accessToken = this.twitchAccessToken) {
 		const url = "https://id.twitch.tv/oauth2/validate";
 		axios({
-			method: 'get',
+			method: "get",
 			url: url,
 			headers: { Authorization: `OAuth ${accessToken}` }
-		}).then(res => { console.log(res.data) }).catch(err => console.log(err.response.data));
+		}).then(res => { console.log(res.data); }).catch(err => console.log(err.response.data));
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -130,17 +129,55 @@ class subscriptionsPortal {
 		broadcastId = this.twitchBroadcastId,
 		accessToken = this.twitchAccessToken,
 		clientId = this.twitchClientId) {
-		const url = `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcastId}`;
+		let url = "";
+		url = `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcastId}`;
 
 		return axios({
-			method: 'get',
+			method: "get",
 			url: url,
 			headers: {
 				"Authorization": `Bearer ${accessToken}`,
 				"Client-Id": clientId
 			}
-		})
+		});
+	}
+
+	async searchChannelInfo(
+		broadcastName,
+		accessToken = this.twitchAccessToken,
+		clientId = this.twitchClientId) {
+		let url = "";
+		url = `https://api.twitch.tv/helix/search/channels?query=${broadcastName}`;
+
+		return axios({
+			method: "get",
+			url: url,
+			headers: {
+				"Authorization": `Bearer ${accessToken}`,
+				"Client-Id": clientId
+			}
+		});
 	}
 }
 
-module.exports = { subscriptionsPortal };
+///////////////////////////////////////////////////////////////////////////////////////
+const twitchSigningSecret = process.env.TWITCH_SIGNING_SECRET;
+const twitchBroadcastId = process.env.TWITCH_BROADCASTER_ID;
+const twitchAccessToken = process.env.TWITCH_ACCESS_TOKEN;
+const twitchClientId = process.env.TWITCH_CLIENT_ID;
+
+const benTwitchSigningSecret = process.env.BEN_TWITCH_SIGNING_SECRET;
+const benTwitchBroadcastId = process.env.BEN_TWITCH_BROADCASTER_ID;
+const benTwitchAccessToken = process.env.BEN_TWITCH_ACCESS_TOKEN;
+const benTwitchClientId = process.env.BEN_TWITCH_CLIENT_ID;
+
+const myPortal = new subscriptionsPortal(
+	twitchAccessToken, twitchClientId, twitchBroadcastId, twitchSigningSecret
+);
+
+const benPortal = new subscriptionsPortal(
+	benTwitchAccessToken, benTwitchClientId, benTwitchBroadcastId, benTwitchSigningSecret
+);
+
+///////////////////////////////////////////////////////////////////////////////////////
+module.exports = { subscriptionsPortal, myPortal, benPortal };

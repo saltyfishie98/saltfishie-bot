@@ -1,11 +1,11 @@
 const Express = require("express");
 const app = Express();
+const path = require("path");
 const port = process.env.PORT || 3000;
 
 const { wakeDyno } = require("./herokuWake");
+const webhookEventHandler = require("./webhookEvent");
 
-const Events = require("events");
-const announcer = new Events();
 const crypto = require("crypto");
 
 function runServer(twitchSigningSecret) {
@@ -41,29 +41,14 @@ function runServer(twitchSigningSecret) {
 	}
 
 	app.use(Express.json({ verify: verifyTwitchSignature }));
-	app.post("/webhook/streamup", (req, res) => {
+	app.post("/webhook", async (req, res) => {
 		if (validSignature) {
 			let challenge = req.body.challenge;
 			res.status(200).send(challenge);
 			console.log("\nExpress: Posted challenge");
 
-			switch (req.body.event.broadcaster_user_id) {
-				case "609051650":
-					announcer.emit("ben-streamup");
-					break;
-
-				case "71843094":
-					announcer.emit("streamup");
-					break;
-
-				default:
-					announcer.emit("streamup");
-					announcer.emit("ben-streamup");
-					announcer.emit("test-broadcast");
-					break;
-			}
+			webhookEventHandler(req.body);
 			validSignature = false;
-
 		} else {
 			res.status(400).send();
 		}
@@ -73,7 +58,6 @@ function runServer(twitchSigningSecret) {
 		res.send("hello world")
 	});
 
-	var path = require("path");
 	app.get("/assets/benangV1.gif", (req, res) => {
 		res.sendFile(path.join(__dirname, "../../assets", "benangV1.gif"))
 	});
@@ -85,4 +69,4 @@ const listener = app.listen(port, () => {
 	console.log("Express: Your app is listening on port " + listener.address().port);
 });
 
-module.exports = { runServer, announcer };
+module.exports = { runServer };
