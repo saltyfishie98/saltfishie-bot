@@ -12,7 +12,7 @@ async function announceTestStreamup(client){
 				icon_url: client.user.displayAvatarURL()
 			},
 			color: 3447003,
-			title: "TESTING BOT: Channel when live event"
+			title: "TESTING BOT: Channel went live event"
 		};
 
 		// send to test server

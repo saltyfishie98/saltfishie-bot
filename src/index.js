@@ -16,16 +16,25 @@ runServer(signingSecretArry);
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const inCommand = require("./bot-commands");
+const { enableBotCommands } = require("./bot-commands");
 
 client.login(process.env.TOKEN);
 
 client.on("ready", () => {
 	console.log("Discordjs: Ready!\n");
-});
+	enableBotCommands(client);
 
-client.on("message", message => {
-	inCommand(message);
+	client.on("raw", event => {
+		if(event.t === "MESSAGE_REACTION_ADD" && event.d.channel_id === "866630865583603712"){
+			let guild = client.guilds.cache.get(event.d.guild_id);
+		
+			if(!event.d.member.roles.includes("866631071016943626")){
+				guild.members.fetch(event.d.user_id).then(user => user.roles.add("866631071016943626"));
+			} else {
+				console.log("ady a new member");
+			}
+		}
+	});
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -33,13 +42,13 @@ const {
 	announceMyStreamChange,
 	announceBenStreamChange,
 	announceTestStreamchange 
-} = require("./helper/webhookEvent/stream-change");
+} = require("./webhookEvent/stream-change");
 
 const {
 	announceMyStreamup,
 	announceBenStreamup,
 	announceTestStreamup
-} = require("./helper/webhookEvent/streamup");
+} = require("./webhookEvent/streamup");
 
 announceBenStreamup(client);
 announceMyStreamup(client);
@@ -63,18 +72,21 @@ announceBenStreamChange(client);
 // }
 // searchChannelData()
 
-// const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhook/streamup";
+// const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhooks";
 // myPortal.queryAccessToken();
-// myPortal.subscription('query');
+// myPortal.subscription("query");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("create", "");
 // myPortal.subscription("create", "", "channel.update");
+// myPortal.subscription("create", registerSubUrl);
+// myPortal.subscription("create", registerSubUrl, "channel.update");
 
-// const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhook/streamup";
 // benPortal.queryAccessToken();
-// benPortal.subscription('query');
+// benPortal.subscription("query");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("create", "");
 // benPortal.subscription("create", "", "channel.update");
+// benPortal.subscription("create", registerSubUrl);
+// benPortal.subscription("create", registerSubUrl, "channel.update");

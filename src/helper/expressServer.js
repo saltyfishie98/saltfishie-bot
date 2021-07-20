@@ -4,7 +4,7 @@ const path = require("path");
 const port = process.env.PORT || 3000;
 
 const { wakeDyno } = require("./herokuWake");
-const webhookEventHandler = require("./webhookEvent");
+const webhookEventHandler = require("../webhookEvent");
 
 const crypto = require("crypto");
 
@@ -41,7 +41,7 @@ function runServer(twitchSigningSecret) {
 	}
 
 	app.use(Express.json({ verify: verifyTwitchSignature }));
-	app.post("/webhook", async (req, res) => {
+	app.post("/webhooks", async (req, res) => {
 		if (validSignature) {
 			let challenge = req.body.challenge;
 			res.status(200).send(challenge);

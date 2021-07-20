@@ -4,7 +4,7 @@ dotenv.config();
 const Events = require("events");
 const announcer = new Events();
 
-const { myPortal } = require("../subcriptionPortal");
+const { myPortal } = require("../helper/subcriptionPortal");
 
 // Streamup
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -67,10 +67,12 @@ function streamChange(reqBody) {
 
 		default:
 			toEmitStreamChange(
-				"saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange");
+				"saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange"
+			);
 
 			toEmitStreamChange(
-				"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange");
+				"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange"
+			);
 
 			announcer.emit("test-streamchange");
 			break;

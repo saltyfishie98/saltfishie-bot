@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const { announcer } = require("../eventType");
-const { benPortal } = require("../../subcriptionPortal");
+const { benPortal } = require("../../helper/subcriptionPortal");
 
 const greetings = [
 	"**Hi friends!**   👋👋👋 ",
