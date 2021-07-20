@@ -38,6 +38,10 @@
 				"before": false,
 				"after": true
 			}
+		],
+		"function-paren-newline": [
+			"error",
+			"consistent"
 		]
 	}
 }

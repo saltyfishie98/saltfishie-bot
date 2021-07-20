@@ -16,6 +16,8 @@ runServer(signingSecretArry);
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+const inCommand = require("./bot-commands");
+
 client.login(process.env.TOKEN);
 
 client.on("ready", () => {
@@ -23,9 +25,7 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-	if (message.content === "!ping") {
-		message.channel.send("Pong!");
-	}
+	inCommand(message);
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
