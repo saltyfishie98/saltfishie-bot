@@ -43,7 +43,6 @@ module.exports = {
 	minArgs: 1,
 	callback: async (message, args, text) =>{
 		let reply = responses[Math.floor(Math.random() * responses.length)];
-
-		message.reply(reply);
+		message.reply(`8ball said: "${reply}"`);
 	}
 };
