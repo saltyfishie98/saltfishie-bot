@@ -58,7 +58,7 @@ async function classifyMessage(args){
 
 		props = args[1].split("| |");
 		for(let i=0; i<props.length; i++){
-			props[i] = props[i].replace("|", "");
+			props[i] = props[i].replace(/\|/g, "");
 		}
 		for(let i=0; i<props.length; i++){
 		// remove spaces then split type and value
@@ -70,7 +70,6 @@ async function classifyMessage(args){
 			props[i].type = temp[0];
 			props[i].value = temp[1];
 		}
-		console.log(props);
 	}
 	return { titleDesc, props };
 }
