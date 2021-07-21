@@ -70,6 +70,7 @@ async function classifyMessage(args){
 			props[i].type = temp[0];
 			props[i].value = temp[1];
 		}
+		console.log(props);
 	}
 	return { titleDesc, props };
 }

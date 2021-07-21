@@ -1,4 +1,4 @@
-const axios = require("axios").default;
+// const axios = require("axios").default;
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -11,10 +11,11 @@ const greetings = [
 	"**Yoo... Wassup...!** "
 ];
 
-async function announceBenStreamup() {
+async function announceBenStreamup(client) {
 	announcer.on("ben-streamup", () => {
 
 		async function run() {
+			const annouceChannel = client.channels.cache.get("865609005136216075");
 			let res = await benPortal.queryChannelInfo();
 			let channelData = res.data.data[0];
 
@@ -42,10 +43,14 @@ async function announceBenStreamup() {
 				},
 			};
 
-			axios.post(`${process.env.BEN_DISCORD_WEBHOOK}`, {
-				content: "Beep.. Boop..		 :robot:",
-				embeds: [embedMessage]
-			}).then(console.log("Annoucer: Announced ben-streamup")).catch(err => console.log(err));
+			// axios.post(`${process.env.BEN_DISCORD_WEBHOOK}`, {
+			// 	content: "Beep.. Boop..		 :robot:",
+			// 	embeds: [embedMessage]
+			// }).then(console.log("Annoucer: Announced ben-streamup")).catch(err => console.log(err));
+
+			annouceChannel.send({
+				embed: embedMessage
+			}).then(console.log("Annoucer: Announced streamup"));
 		}
 
 		run();
