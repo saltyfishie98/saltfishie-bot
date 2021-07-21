@@ -2,8 +2,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 ///////////////////////////////////////////////////////////////////////////////////////
-const { runServer } = require("./helper/expressServer");
-const { benPortal, myPortal } = require("./helper/subcriptionPortal");
+const { 
+	runServer,
+	myPortal,
+	benPortal
+} = require("./helper");
 
 const signingSecretArry = [
 	benPortal.twitchSigningSecret,
@@ -17,24 +20,17 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 const { enableBotCommands } = require("./bot-commands");
+const { verifyUser } = require("./helper");
 
 client.login(process.env.TOKEN);
 
 client.on("ready", () => {
 	console.log("Discordjs: Ready!\n");
 	enableBotCommands(client);
+	verifyUser(client);
+});
 
-	client.on("raw", event => {
-		if(event.t === "MESSAGE_REACTION_ADD" && event.d.channel_id === "866630865583603712"){
-			let guild = client.guilds.cache.get(event.d.guild_id);
-		
-			if(!event.d.member.roles.includes("866631071016943626")){
-				guild.members.fetch(event.d.user_id).then(user => user.roles.add("866631071016943626"));
-			} else {
-				console.log("ady a new member");
-			}
-		}
-	});
+client.on("message", (message) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +73,8 @@ announceBenStreamChange(client);
 // myPortal.subscription("query");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("delete", "");
-// myPortal.subscription("create", "");
-// myPortal.subscription("create", "", "channel.update");
+// myPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks");
+// myPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
 // myPortal.subscription("create", registerSubUrl);
 // myPortal.subscription("create", registerSubUrl, "channel.update");
 
@@ -86,7 +82,7 @@ announceBenStreamChange(client);
 // benPortal.subscription("query");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("delete", "");
-// benPortal.subscription("create", "");
-// benPortal.subscription("create", "", "channel.update");
+// benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks");
+// benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
 // benPortal.subscription("create", registerSubUrl);
 // benPortal.subscription("create", registerSubUrl, "channel.update");

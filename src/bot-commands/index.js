@@ -47,6 +47,7 @@ function validatePermission(permissions){
 	}
 }
 
+let availableCommands = [];
 function botCommand(client, commandOptions){
 	let {
 		commands,
@@ -63,7 +64,7 @@ function botCommand(client, commandOptions){
 		commands = [commands];
 	}
 	console.log(`adding command "${commands[0]}"`);
-
+	availableCommands.push(commands[0]);
 
 	if(permissions.length){
 		if(typeof permissions === "string"){
@@ -104,7 +105,9 @@ function botCommand(client, commandOptions){
 				args.shift();
 
 				if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
-					message.reply(`Incorrect syntax! Use ${config.prefix}${alias} ${expectedArgs}`);
+					message.reply({
+						embed: expectedArgs
+					});
 					return;
 				}
 
@@ -136,6 +139,17 @@ function enableBotCommands(client){
 		}
 	};
 	readCommands("../bot-commands");
+
+	client.on("message", message => {
+		let embedMessage = {
+			title: "Available Commands",
+			description: `${availableCommands}`
+		};
+
+		if(message.content === "!commands"){
+			message.reply({ embed: embedMessage });
+		}
+	});
 }
 
 module.exports = { enableBotCommands };
