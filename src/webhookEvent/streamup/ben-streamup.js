@@ -15,7 +15,7 @@ async function announceBenStreamup(client) {
 	announcer.on("ben-streamup", () => {
 
 		async function run() {
-			const annouceChannel = client.channels.cache.get("865609005136216075");
+			const annouceChannel = client.channels.cache.get("845682082750922784");
 			let res = await benPortal.queryChannelInfo();
 			let channelData = res.data.data[0];
 

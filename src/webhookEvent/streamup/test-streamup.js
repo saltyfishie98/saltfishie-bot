@@ -1,10 +1,11 @@
-const axios = require("axios").default;
+// const axios = require("axios").default;
 
 const { announcer } = require("../eventType");
 
 async function announceTestStreamup(client){
 	announcer.on("test-streamup", () => {
 		const annouceChannel = client.channels.cache.get("863447077094031393");
+		const annouceBenChannel = client.channels.cache.get("865609005136216075");
 
 		const embedMessage = {
 			author: {
@@ -21,11 +22,11 @@ async function announceTestStreamup(client){
 			embed: embedMessage
 		}).then(console.log("Annoucer: Announced test-streamup"));
 
-		// send to Ben's webhook
-		axios.post(`${process.env.BEN_DISCORD_WEBHOOK}`, {
+		// send to Ben's channel
+		annouceBenChannel.send({
 			content: "Beep Boop :robot:",
-			embeds: [embedMessage]
-		}).then(console.log("Annoucer: Announced test-streamup")).catch(err => console.log(err));
+			embed: embedMessage
+		}).then(console.log("Annoucer: Announced test-streamup"));
 	});
 }
 

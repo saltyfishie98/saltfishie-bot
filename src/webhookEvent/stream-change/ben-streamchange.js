@@ -14,7 +14,7 @@ async function announceBenStreamChange(client) {
 	announcer.on("ben-streamchange", (name, title) => {
 
 		async function run() {
-			const annouceChannel = client.channels.cache.get("865609005136216075");
+			const annouceChannel = client.channels.cache.get("845682082750922784");
 
 			let embedMessage = {
 				color: 15844367,
