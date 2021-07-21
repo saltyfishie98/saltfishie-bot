@@ -1,5 +1,5 @@
 module.exports = {
-	commands: ["showRules", "showRule", "showrule"],
+	commands: ["showRules", "showRule", "showrule", "showrules"],
 	expectedArgs: "",
 	minArgs: 0,
 	maxArgs: 0,
@@ -19,7 +19,7 @@ module.exports = {
 				embed: embedMessage
 			});
 		} else {
-			message.channel.reply("can't be used in this channel");
+			message.reply("can't be used in this channel");
 		}
 	}
 };
