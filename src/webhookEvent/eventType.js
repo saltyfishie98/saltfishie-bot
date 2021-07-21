@@ -19,7 +19,7 @@ function streamup(reqBody) {
 			break;
 
 		default:
-			announcer.emit("ben-streamup");
+			// announcer.emit("ben-streamup");
 			announcer.emit("my-streamup");
 			announcer.emit("test-streamup");
 			break;
@@ -70,9 +70,9 @@ function streamChange(reqBody) {
 				"saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange"
 			);
 
-			toEmitStreamChange(
-				"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange"
-			);
+			// toEmitStreamChange(
+			// 	"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange"
+			// );
 
 			announcer.emit("test-streamchange");
 			break;
