@@ -1,5 +1,6 @@
 module.exports = {
 	commands: ["clear", "cls", "Clear"],
+	shortDesc: "clear a specified amount of message/s",
 	expectedArgs: {
 		title: "!clear",
 		fields: [

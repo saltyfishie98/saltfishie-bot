@@ -20,18 +20,22 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 const { enableBotCommands } = require("./bot-commands");
+const { enableSlashCommands } = require("./slash-commands");
 const { verifyUser } = require("./helper");
+
+client.on("ready", async () => {
+	console.log("Discordjs: Ready!\n");
+	verifyUser(client);
+	enableBotCommands(client);
+	enableSlashCommands(client);
+	// client.user.fetch("335651941671763969").then(data => console.log(data.displayAvatarURL()));
+});
 
 client.login(process.env.TOKEN);
 
-client.on("ready", () => {
-	console.log("Discordjs: Ready!\n");
-	enableBotCommands(client);
-	verifyUser(client);
-});
-
-client.on("message", (message) => {
-});
+// client.on("message", (message) => {
+// 	message.channel.send(`<@${message.author.id}>, what??`);
+// });
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const { 

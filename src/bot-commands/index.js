@@ -122,6 +122,7 @@ function botCommand(client, commandOptions){
 ///////////////////////////////////////////////////////////////////////////////////////
 const path = require("path");
 const fs = require("fs");
+const Discord = require("discord.js");
 
 function enableBotCommands(client){
 	const readCommands = dir => {
@@ -140,14 +141,51 @@ function enableBotCommands(client){
 	};
 	readCommands("../bot-commands");
 
-	client.on("message", message => {
-		let embedMessage = {
-			title: "Available Commands",
-			description: `${availableCommands}`
-		};
+	///////////////////////////////////////////////////////////////////////////////////
+	let embedMsg = new Discord.MessageEmbed();
+	const showCommands = (dir) => {
+		embedMsg.setTitle("Available Commands");
 
-		if(message.content === "!commands"){
-			message.reply({ embed: embedMessage });
+		const files = fs.readdirSync(path.join(__dirname, dir));
+
+		for(const file of files){
+			const stat = fs.lstatSync(path.join(__dirname, dir, file));
+			
+			if(stat.isDirectory()){
+				showCommands(path.join(dir, file));
+			} else if(file !== "index.js" && file !== "showRules.js") {
+				const option = require(path.join(__dirname, dir, file));
+				embedMsg.addField(option.commands[0], option.shortDesc || "unspecified");
+				console.log(embedMsg);
+			}
+		}
+		console.log(embedMsg);
+		return embedMsg;
+	};
+	
+	let first = true;
+	let outParam;
+	client.on("message", message => {
+		const validCommands = [
+			"cmd",
+			"cmds",
+			"commands",
+			"command"
+		];
+
+		let msgIsValid = false;
+		for(let command of validCommands){
+			if(message.content === `${config.prefix}${command}`){
+				msgIsValid = true;
+			}
+		}
+
+		if(msgIsValid){
+			if(first) {
+				outParam = showCommands("../bot-commands");
+				first = false;
+			}
+			message.reply(outParam);
 		}
 	});
 }

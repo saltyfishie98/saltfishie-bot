@@ -1,3 +1,9 @@
+/**
+ * @brief look for a symbol in an arg then process it using the callbackfn
+ * @param  symbol	symbol to find in the args
+ * @param  argStr	args to be process
+ * @param  callbackFn method to process the found data; not a pure function
+ */
 let addToString = false;
 function lookForSymbol(symbol, argStr, callbackFn){
 	if(argStr.charAt(0) === symbol) addToString = true;
@@ -7,6 +13,11 @@ function lookForSymbol(symbol, argStr, callbackFn){
 	if(argStr.charAt(argStr.length - 1) === symbol) addToString = false;
 }
 
+/**
+ * @brief split and classify the args into titleDesc("title" & "desc") and properties
+ * @param args
+ * @returns {object} titleDesc, props
+ */
 async function classifyMessage(args){
 	let properties = {
 		type: "",
@@ -19,6 +30,9 @@ async function classifyMessage(args){
 	let startSplice;
 	let spliceCount = 1;
 	for(let i = 0; i < args.length; i++){
+
+		// look for data in between double quotes then concatenate 
+		// into tempString (with no space at the start)
 		lookForSymbol("\"", args[i], () => {
 			if(firstStr){
 				tempString += args[i];
@@ -29,14 +43,21 @@ async function classifyMessage(args){
 				spliceCount++;
 			}
 		});
-	}		
+
+	}	
+	// then reinsert the tempstring into the original args array 
+	// with the pre-concatenated elements removed
 	args.splice(startSplice, spliceCount, tempString);
 
+	// take the first element (previous operation ensures args between quote are in a element)
+	// then split at " " into titleDesc array
 	let titleDesc = args[0].split("\" \"");
 	for(let i=0; i<titleDesc.length; i++){
 		titleDesc[i] = titleDesc[i].replace(/"/g, "");
 	}
 	
+	// run this if there are remaining args after previous ops. ie. 
+	// the optional args are specified
 	if(args.length > 1){
 		let firstCmd = true;
 		let tempCmd = "";
@@ -70,13 +91,13 @@ async function classifyMessage(args){
 			props[i].type = temp[0];
 			props[i].value = temp[1];
 		}
-		console.log(props);
 	}
 	return { titleDesc, props };
 }
 
 module.exports = {
 	commands: ["embed"],
+	shortDesc: "Create a message embed",
 	expectedArgs: {
 		title: "!embed",
 		fields: [
@@ -103,11 +124,17 @@ module.exports = {
 	minArgs: 1,
 	permissions: ["EMBED_LINKS"],
 	requiredRoles: [],
+
 	callback: async (message, args, text) =>{
-		let argsObj = await classifyMessage(args);
-		
 		let embedMessage;
+
+		// Obtain the classification of data in the args array
+		let argsObj = await classifyMessage(args);
+
+		// When no optional properties specified in the args array
 		if(argsObj.props === null){
+
+			// Format the outEmbed message
 			embedMessage = {
 				author: {
 					name: message.author.username,
@@ -120,6 +147,7 @@ module.exports = {
 		} else {
 			let imgUrl, colorVal, urlVal;
 
+			// allocate the optional properties
 			for(let props of argsObj.props){
 				switch (props.type) {
 					case "imageUrl":
@@ -140,6 +168,7 @@ module.exports = {
 				}
 			}
 
+			// Format the outEmbed message
 			embedMessage = {
 				author: {
 					name: message.author.username,
@@ -157,6 +186,6 @@ module.exports = {
 
 		message.channel.send({
 			embed: embedMessage
-		}).then(() => message.delete());
+		}).then(() => message.delete()).catch(() => {});
 	}
 };

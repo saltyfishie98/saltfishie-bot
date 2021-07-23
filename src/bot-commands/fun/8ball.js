@@ -23,6 +23,7 @@ const responses = [
 
 module.exports = {
 	commands: ["8Ball", "8ball"],
+	shortDesc: "A magic 8 ball",
 	expectedArgs: {
 		title: "!8Ball",
 		fields: [
@@ -32,7 +33,7 @@ module.exports = {
 			},
 			{	
 				name: "Parameters",
-				value: "string",
+				value: "question",
 			},
 			{
 				name: "Example usage: ",
@@ -43,6 +44,6 @@ module.exports = {
 	minArgs: 1,
 	callback: async (message, args, text) =>{
 		let reply = responses[Math.floor(Math.random() * responses.length)];
-		message.reply(`8ball said: "${reply}"`);
+		message.channel.send(`**8ball**: <@${message.author.id}> ${reply}`);
 	}
 };
