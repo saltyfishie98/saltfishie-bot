@@ -31,6 +31,15 @@ client.on("ready", async () => {
 	// client.user.fetch("335651941671763969").then(data => console.log(data.displayAvatarURL()));
 });
 
+// client.ws.on("INTERACTION_CREATE", async (interaction) => {
+// 	// console.log(interaction);
+// 	const guildData = await client.guilds.fetch("845682082306064404");
+// 	const memberData = await guildData.members.fetch("335651941671763969");
+// 	let guildHas = await guildData.roles.cache.find(role => role.name.toLowerCase() === "sunway people");
+// 	let memberHas = await memberData.roles.cache.find(role => role.name.toLowerCase() === "admin");
+// 	console.log(memberData.hasPermission("MANAGE_ROLES"));
+// });
+
 client.login(process.env.TOKEN);
 
 // client.on("message", (message) => {

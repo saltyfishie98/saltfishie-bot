@@ -27,7 +27,7 @@ module.exports = {
 		try{
 			if(`${args}` === "all"){
 				do {
-					fetched = await message.channel.messages.fetch({ limit: 50 });
+					fetched = await message.channel.messages.fetch({ limit: 100 });
 					message.channel.bulkDelete(fetched);
 				}
 				while(fetched.size >= 2);

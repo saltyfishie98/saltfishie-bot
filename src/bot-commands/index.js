@@ -47,7 +47,6 @@ function validatePermission(permissions){
 	}
 }
 
-let availableCommands = [];
 function botCommand(client, commandOptions){
 	let {
 		commands,
@@ -64,7 +63,6 @@ function botCommand(client, commandOptions){
 		commands = [commands];
 	}
 	console.log(`adding command "${commands[0]}"`);
-	availableCommands.push(commands[0]);
 
 	if(permissions.length){
 		if(typeof permissions === "string"){
@@ -81,6 +79,7 @@ function botCommand(client, commandOptions){
 		for (const alias of commands){
 			if(content.toLowerCase().startsWith(`${config.prefix}${alias.toLowerCase()}`)){
 				
+				// check permissions
 				for(const permission of permissions){
 					if(!member.hasPermission(permission)){
 						message.reply(permissionError);
@@ -88,6 +87,7 @@ function botCommand(client, commandOptions){
 					}
 				}
 
+				// check roles
 				for(const requiredRole of requiredRoles){
 					let guildHas = false;
 					let memberHas = false;
@@ -101,9 +101,9 @@ function botCommand(client, commandOptions){
 					}
 				}
 
+				// check args length
 				const args = content.split(/[ ]+/);
 				args.shift();
-
 				if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
 					message.reply({
 						embed: expectedArgs
@@ -145,6 +145,7 @@ function enableBotCommands(client){
 	let embedMsg = new Discord.MessageEmbed();
 	const showCommands = (dir) => {
 		embedMsg.setTitle("Available Commands");
+		embedMsg.setFooter("Note: The commands are also available as slash commands");
 
 		const files = fs.readdirSync(path.join(__dirname, dir));
 
@@ -156,10 +157,10 @@ function enableBotCommands(client){
 			} else if(file !== "index.js" && file !== "showRules.js") {
 				const option = require(path.join(__dirname, dir, file));
 				embedMsg.addField(option.commands[0], option.shortDesc || "unspecified");
-				console.log(embedMsg);
+				// console.log(embedMsg);
 			}
 		}
-		console.log(embedMsg);
+		// console.log(embedMsg);
 		return embedMsg;
 	};
 	
