@@ -186,7 +186,10 @@ function enableBotCommands(client){
 				outParam = showCommands("../bot-commands");
 				first = false;
 			}
-			message.reply(outParam);
+			message.channel.send({
+				content: `<@${message.author.id}>`,
+				embed: outParam
+			}).then(() => message.delete());
 		}
 	});
 }
