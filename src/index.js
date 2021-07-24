@@ -23,12 +23,36 @@ const { enableBotCommands } = require("./bot-commands");
 const { enableSlashCommands } = require("./slash-commands");
 const { verifyUser } = require("./helper");
 
+const benGuildId = "845682082306064404";
 client.on("ready", async () => {
 	console.log("Discordjs: Ready!\n");
 	verifyUser(client);
 	enableBotCommands(client);
 	enableSlashCommands(client);
 	// client.user.fetch("335651941671763969").then(data => console.log(data.displayAvatarURL()));
+
+	// client.api.applications(client.user.id).commands.post({
+	// 	data: {
+	// 		name: "8ball",
+	// 		description: "A magic 8ball",
+	// 		options: [
+	// 			{
+	// 				name: "question",
+	// 				description: "Ask 8ball a yes or no question",
+	// 				required: true,
+	// 				type: 3
+	// 			}
+	// 		]
+	// 	}
+	// });
+	// client.api.applications(client.user.id).guilds(benGuildId).commands.post({
+	// });
+
+	// client.api.applications(client.user.id).commands("868220332685807676").delete();
+
+	// const sCommands = await client.api.applications(client.user.id).commands.get();
+	// // const sCommands = await client.api.applications(client.user.id).guilds(benGuildId).commands.get();
+	// console.log(sCommands);
 });
 
 // client.ws.on("INTERACTION_CREATE", async (interaction) => {
