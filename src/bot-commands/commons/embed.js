@@ -123,7 +123,6 @@ module.exports = {
 	},
 	minArgs: 1,
 	permissions: ["EMBED_LINKS"],
-	requiredRoles: [],
 
 	callback: async (message, args, text) =>{
 		let embedMessage;

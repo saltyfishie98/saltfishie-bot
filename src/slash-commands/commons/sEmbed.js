@@ -53,8 +53,7 @@ module.exports = {
 	},
 
 	cmdName: "embed",
-	permissions: ["ADMINISTRATOR"],
-	requiredRoles: ["Admin"],
+	permissions: ["EMBED_LINKS"],
 	callback: async (client, interaction, args, replyTo) => {
 		const user = await client.user.fetch(interaction.member.user.id);
 		let embedMsg = new Discord.MessageEmbed();
