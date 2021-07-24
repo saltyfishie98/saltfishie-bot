@@ -8,7 +8,7 @@ const embedMessage = {
 		{ name: "\u200B", value: "\u200B" },
 		{
 			name: "Don't Be a Dick :)",
-			value: "-> No spamming\n-> Respect each other"
+			value: "-> No spamming ❌\n-> Respect each other 🤗"
 		},
 		{ name: "\u200B", value: "\u200B" },
 		{
