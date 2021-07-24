@@ -31,21 +31,35 @@ client.on("ready", async () => {
 	enableSlashCommands(client);
 	// client.user.fetch("335651941671763969").then(data => console.log(data.displayAvatarURL()));
 
-	// client.api.applications(client.user.id).commands.post({
-	// 	data: {
-	// 		name: "",
-	// 		description: """,
-	// 		options: []
-	// 	}
-	// });
+	client.api.applications(client.user.id).commands.post({
+		data: {
+			name: "give-role",
+			description: "Give role to a specified user",
+			options: [
+				{
+					name: "username",
+					description: "username of the user; to give the role to",
+					required: true,
+					type: 3
+				},
+				{
+					name: "role",
+					description: "the name of the role to be given",
+					required: true,
+					type: 3
+				}
+			]
+		}
+	});
 	// client.api.applications(client.user.id).guilds(benGuildId).commands.post({
 	// });
+	
+	// client.api.applications(client.user.id).guilds(benGuildId)
+	// 	.commands("868020488427946024").delete();
 
-	// client.api.applications(client.user.id).commands("868220332685807676").delete();
-
-	// const sCommands = await client.api.applications(client.user.id).commands.get();
+	const sCommands = await client.api.applications(client.user.id).commands.get();
 	// const sCommands = await client.api.applications(client.user.id).guilds(benGuildId).commands.get();
-	// console.log(sCommands);
+	console.log(sCommands);
 });
 
 // client.ws.on("INTERACTION_CREATE", async (interaction) => {
@@ -59,8 +73,9 @@ client.on("ready", async () => {
 
 client.login(process.env.TOKEN);
 
-// client.on("message", (message) => {
-// 	message.channel.send(`<@${message.author.id}>, what??`);
+// client.on("raw", async (event) => {
+// 	if(event.t === "MESSAGE_REACTION_ADD"){
+// 	}
 // });
 
 ///////////////////////////////////////////////////////////////////////////////////////
