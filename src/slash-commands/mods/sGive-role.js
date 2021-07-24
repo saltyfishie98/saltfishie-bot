@@ -5,13 +5,13 @@ module.exports = {
 	callback: async (client, interaction, args, replyTo) => {
 		const { member } = interaction;
 
-		console.log(args);
-		console.log(interaction);
+		// console.log(args);
+		// console.log(interaction);
 
 		const authorId = member.user.id;
 		const guildId = interaction.guild_id;
 
-		console.log(args);
+		// console.log(args);
 		// check if mentions is used
 		if(args["mention-username"].charAt(0) !== "<") {
 			replyTo(interaction, `<@${authorId}>, please use mentions; i.e. "@username"`);
