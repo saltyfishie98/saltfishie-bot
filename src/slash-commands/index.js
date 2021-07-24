@@ -252,7 +252,7 @@ async function slashCommands(client, commandOptions){
 				type: 4,
 				data
 			}
-		});
+		}).catch(() => {});
 	}
 
 	let {

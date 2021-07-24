@@ -37,7 +37,7 @@ client.on("ready", async () => {
 	// 		description: "Give role to a specified user",
 	// 		options: [
 	// 			{
-	// 				name: "username",
+	// 				name: "mention-username",
 	// 				description: "username of the user; to give the role to",
 	// 				required: true,
 	// 				type: 3
@@ -63,20 +63,10 @@ client.on("ready", async () => {
 });
 
 // client.ws.on("INTERACTION_CREATE", async (interaction) => {
-// 	// console.log(interaction);
-// 	const guildData = await client.guilds.fetch("845682082306064404");
-// 	const memberData = await guildData.members.fetch("335651941671763969");
-// 	let guildHas = await guildData.roles.cache.find(role => role.name.toLowerCase() === "sunway people");
-// 	let memberHas = await memberData.roles.cache.find(role => role.name.toLowerCase() === "admin");
-// 	console.log(memberData.hasPermission("MANAGE_ROLES"));
+// 	console.log(interaction.data.options);
 // });
 
 client.login(process.env.TOKEN);
-
-client.on("message", (message) =>{
-	let userData = {};
-	console.log(message.mentions.users);
-});
 
 // client.on("raw", async (event) => {
 // 	if(event.t === "MESSAGE_REACTION_ADD"){

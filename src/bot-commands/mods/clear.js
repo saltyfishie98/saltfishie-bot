@@ -38,7 +38,7 @@ module.exports = {
 				message.channel.bulkDelete(fetched);
 			}} 
 		catch(err) {
-			console.log(err);
+			return;
 		}
 	}
 };
