@@ -2,7 +2,26 @@ const { guildChannelList } = require("../../helper/channelList");
 
 const embedMessage = {
 	color: 3447003,
-	title: "By reacting to this message, you have agreed to the rules of this server"
+	title: "**Welcome to the Benangz discord server**",
+	description: "**The Rules of The Server**",
+	fields: [
+		{ name: "\u200B", value: "\u200B" },
+		{
+			name: "Don't Be a Dick :)",
+			value: "-> No spamming\n-> Respect each other"
+		},
+		{ name: "\u200B", value: "\u200B" },
+		{
+			name: "Use this link to invite",
+			value: "Link: https://discord.gg/8xnrGJtkjz"
+		},
+		
+		{ name: "\u200B", value: "\u200B" },
+		{
+			name: "**By reacting to this message, you have agreed to the rules of this server**",
+			value: "Note: the react is required to officially join this server :P"
+		}
+	],
 };
 
 module.exports = {
