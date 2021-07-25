@@ -259,7 +259,7 @@ async function slashCommands(client, commandOptions){
 		cmdName,
 		permissionError = "you do not have the permission to run this command",
 		permissions = [],
-		requiredRoles = [],
+		requiredRoles = ["seedling"],
 		callback
 	} = commandOptions;
 
@@ -292,6 +292,7 @@ async function slashCommands(client, commandOptions){
 	
 		if(cmdName === inCommand){
 			// check permission
+			// console.log(requiredRoles);
 			for(const permission of permissions){
 				if(!memberData.hasPermission(permission)){
 					replyTo(interaction, permissionError);
@@ -316,6 +317,7 @@ async function slashCommands(client, commandOptions){
 					return;
 				}
 			}
+
 			await callback(client, interaction, args, replyTo);
 		}
 	});

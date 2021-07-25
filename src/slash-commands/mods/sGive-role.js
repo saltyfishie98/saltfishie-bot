@@ -1,7 +1,6 @@
 module.exports = {
 	cmdName: "give-role",
 	permissions: ["ADMINISTRATOR"],
-	requiredRoles: ["Admin"],
 	callback: async (client, interaction, args, replyTo) => {
 		const { member } = interaction;
 
@@ -11,31 +10,47 @@ module.exports = {
 		const authorId = member.user.id;
 		const guildId = interaction.guild_id;
 
-		// console.log(args);
-		// check if mentions is used
-		if(args["mention-username"].charAt(0) !== "<") {
+		// check if mentions is used for username
+		if (args["mention-username"].charAt(0) === "@" || args["mention-username"].charAt(2) === "&"){
+			replyTo(interaction, `<@${member.user.id}>, Please use input a   **USER**   ಠ_ಠ`);
+			return; 
+		}
+		if(args["mention-username"].charAt(2) !== "!") {
 			replyTo(interaction, `<@${authorId}>, please use mentions; i.e. "@username"`);
 			return;
 		}
 
+		// check if mentions is used for role
+		if (args["role"].charAt(0) === "@" || args["role"].charAt(2) === "!"){
+			replyTo(interaction, `<@${member.user.id}>, Please use input a   **ROLE**   ಠ_ಠ`);
+			return; 
+		}
+		if(args["role"].charAt(2) !== "&") {
+			replyTo(interaction, `<@${authorId}>, please use mentions; i.e. "@role"`);
+			return;
+		}
+
 		// remove symbols
-		let roleReceiver;
-		roleReceiver = args["mention-username"].match(/[0-9]/g).join().replace(/,/g, "");
+		let roleReceiverId;
+		let assignedRoleId;
+		roleReceiverId = args["mention-username"].match(/[0-9]/g).join().replace(/,/g, "");
+		assignedRoleId = args["role"].match(/[0-9]/g).join().replace(/,/g, "");
 
 		const guildData = await client.guilds.fetch(guildId);
-		const memberData = await guildData.members.fetch(roleReceiver).catch(()=>{});
+		const memberData = await guildData.members.fetch(roleReceiverId).catch(()=>{});
 		
 		let guildRoleData; 
 		let memberRoleData;
 		try {
 			// check roles is in guild
-			guildRoleData = guildData.roles.cache.find(role => role.name.toLowerCase() === args["role"]);
-			memberRoleData = memberData.roles.cache.find(role => role.name.toLowerCase() === args["role"]);
+			guildRoleData = guildData.roles.cache.find(role => role.id === assignedRoleId);
+			memberRoleData = memberData.roles.cache.find(role => role.id === assignedRoleId);
+			// console.log(memberRoleData);
 		} catch (error) { 
-			replyTo(interaction, `<@${member.user.id}>, Please use input a **USER**   ಠ_ಠ`);
+			replyTo(interaction, `<@${member.user.id}>, Please use input a   **USER**   ಠ_ಠ`);
 			return; 
 		}
-
+		
 		if(!guildRoleData){
 			replyTo(interaction, `The "${args["role"]}" role does not exist in this server`);
 			return;
@@ -48,7 +63,12 @@ module.exports = {
 		}
 
 		// give the role
-		await guildData.members.fetch(roleReceiver).then(user => user.roles.add(guildRoleData.id));
-		replyTo(interaction, `${args["mention-username"]} has given <@${member.user.id}> the "${args["role"]}" role`);
+		try{
+			await guildData.members.fetch(roleReceiverId).then(user => user.roles.add(guildRoleData.id));
+			replyTo(interaction, `${args["mention-username"]} has given <@${member.user.id}> the "${args["role"]}" role`);
+		}catch(err){
+			replyTo(interaction, "Only can give roles with rank lower than admin :)");
+			return;
+		}
 	}
 };
