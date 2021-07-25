@@ -40,11 +40,6 @@ async function announceBenStreamChange(client) {
 				},
 			};
 
-			// axios.post(`${process.env.BEN_DISCORD_WEBHOOK}`, {
-			// 	content: "Beep.. Boop..		 :robot:",
-			// 	embeds: [embedMessage]
-			// }).then(console.log("Annoucer: Announced ben-streamchange")).catch(err => console.log(err));
-
 			annouceChannel.send({
 				embed: embedMessage
 			}).then(console.log("Annoucer: Announced streamup"));

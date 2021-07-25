@@ -1,4 +1,4 @@
-const { guildChannelList } = require("./channelList");
+const { guildChannelList } = require("./config/verifyUserConfig");
 
 function verifyUser(client) {
 	client.on("raw", async (eventData) => {

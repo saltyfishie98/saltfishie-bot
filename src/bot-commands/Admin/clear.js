@@ -31,7 +31,6 @@ module.exports = {
 					message.channel.bulkDelete(fetched);
 				}
 				while(fetched.size >= 2);
-				console.log("cleared");
 			} else {
 				args = parseInt(args) + 1;
 				fetched = await message.channel.messages.fetch({ limit: args });
