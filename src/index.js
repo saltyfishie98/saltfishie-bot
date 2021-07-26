@@ -21,30 +21,33 @@ const client = new Discord.Client();
 
 const { enableBotCommands } = require("./bot-commands");
 const { enableSlashCommands } = require("./slash-commands");
-const { verifyUser } = require("./helper");
+const { verifyUser, suggestionAutoReact } = require("./helper");
+// const { roleReaction } = require("./helper/roleReaction");
+// const { firstMessage } = require("./helper/firstMessage");
 
-const benGuildId = "845682082306064404";
+
+// const benGuildId = "845682082306064404";
 client.on("ready", async () => {
 	console.log("Discordjs: Ready!\n");
 	verifyUser(client);
 	enableBotCommands(client);
 	enableSlashCommands(client);
-	// client.user.fetch("335651941671763969").then(data => console.log(data.displayAvatarURL()));
+	suggestionAutoReact(client);
+
+	// let ticket = 0;
+	// client.on("message", message => {
+	// 	if(!message.author.bot){
+	// 	}
+	// });
 
 	// client.api.applications(client.user.id).commands.post({
 	// 	data: {
-	// 		name: "give-role",
-	// 		description: "Give role to a specified user",
+	// 		name: "8ball",
+	// 		description: "A magic 8 ball",
 	// 		options: [
 	// 			{
-	// 				name: "mention-username",
-	// 				description: "username of the user; to give the role to",
-	// 				required: true,
-	// 				type: 3
-	// 			},
-	// 			{
-	// 				name: "role",
-	// 				description: "the name of the role to be given",
+	// 				name: "question",
+	// 				description: "Questio to ask the 8ball",
 	// 				required: true,
 	// 				type: 3
 	// 			}
@@ -54,11 +57,19 @@ client.on("ready", async () => {
 	// client.api.applications(client.user.id).guilds(benGuildId).commands.post({
 	// });
 	
-	// client.api.applications(client.user.id).guilds(benGuildId)
-	// 	.commands("868020488427946024").delete();
+	// client.api.applications(client.user.id)
+	// 	.commands("868220854914408498").delete();
+	// client.api.applications(client.user.id)
+	// 	.commands("868414944847204392").delete();
+	// client.api.applications(client.user.id)
+	// 	.commands("868415091249381376").delete();
+	// client.api.applications(client.user.id)
+	// 	.commands("868419481263800360").delete();
+	// client.api.applications(client.user.id)
+	// 	.commands("868467084085043201").delete();
 
-	// const sCommands = await client.api.applications(client.user.id).commands.get();
 	// const sCommands = await client.api.applications(client.user.id).guilds(benGuildId).commands.get();
+	// const sCommands = await client.api.applications(client.user.id).commands.get();
 	// console.log(sCommands);
 });
 

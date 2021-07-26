@@ -1,4 +1,25 @@
 module.exports = {
+	registration:{
+		data: {
+			name: "give-role",
+			description: "Give role to a specified user",
+			options: [
+				{
+					name: "mention-username",
+					description: "username of the user; to give the role to",
+					required: true,
+					type: 3
+				},
+				{
+					name: "role",
+					description: "the name of the role to be given",
+					required: true,
+					type: 3
+				}
+			]
+		}
+	},
+
 	cmdName: "give-role",
 	permissions: ["ADMINISTRATOR"],
 	callback: async (client, interaction, args, replyTo) => {

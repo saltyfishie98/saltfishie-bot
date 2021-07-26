@@ -24,12 +24,12 @@ const responses = [
 module.exports = {
 	registration:{
 		data: {
-			name: "clear",
-			description: "Clear specified amount of message",
+			name: "8ball",
+			description: "A magic 8 ball",
 			options: [
 				{
-					name: "amount",
-					description: "Amount to clear",
+					name: "question",
+					description: "Questio to ask the 8ball",
 					required: true,
 					type: 3
 				}
