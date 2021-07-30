@@ -21,7 +21,11 @@ const client = new Discord.Client();
 
 const { enableBotCommands } = require("./bot-commands");
 const { enableSlashCommands } = require("./slash-commands");
-const { verifyUser, suggestionAutoReact } = require("./helper");
+const { 
+	verifyUser,
+	suggestionAutoReact, 
+	suggestionPollListener
+} = require("./helper");
 // const { roleReaction } = require("./helper/roleReaction");
 // const { firstMessage } = require("./helper/firstMessage");
 
@@ -33,6 +37,8 @@ client.on("ready", async () => {
 	enableBotCommands(client);
 	enableSlashCommands(client);
 	suggestionAutoReact(client);
+	suggestionPollListener(client, "845682082750922788", "870744348982145055", 10);
+	suggestionPollListener(client, "868907390752399370", "870744348982145055", 10);
 
 	// let ticket = 0;
 	// client.on("message", message => {
@@ -80,8 +86,37 @@ client.on("ready", async () => {
 client.login(process.env.TOKEN);
 
 // client.on("raw", async (event) => {
-// 	if(event.t === "MESSAGE_REACTION_ADD"){
-// 	}
+// 	const upDownDiff = 1;
+// 	const receiveChannelId = "865609005136216075";
+// 	const listenChannelId = "845682082750922788";
+
+// 	try{
+// 		if(event.d.guild_id === "845682082306064404" && event.d.channel_id === listenChannelId){
+// 			const messageId = event.d.message_id;
+// 			const channelData = await client.channels.fetch(listenChannelId);
+// 			const messageData = await channelData.messages.fetch(messageId);
+// 			const upCount = messageData.reactions.cache.get("👍").count;
+// 			const downCount = messageData.reactions.cache.get("👎").count;
+			
+// 			const receiveChannel = await client.channels.fetch(receiveChannelId);
+// 			console.log(messageData.channel.name);
+
+// 			if(upCount - downCount >= upDownDiff){
+// 				const messageContent = messageData.content;
+
+// 				const embedMessage = {
+// 					author: {
+// 						name: messageData.author.username,
+// 						icon_url: messageData.author.displayAvatarURL()
+// 					},
+// 					title: `${messageData.channel.name} suggestion:`,
+// 					description: messageContent
+// 				};
+
+// 				receiveChannel.send({ embed: embedMessage });
+// 			}
+// 		}
+// 	}catch(err){console.log(err, "\n");}
 // });
 
 ///////////////////////////////////////////////////////////////////////////////////////
