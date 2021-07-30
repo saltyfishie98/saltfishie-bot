@@ -1,6 +1,7 @@
 function suggestionPollListener(client, listenChannelId, receiveChannelId, treshold){
 	client.on("raw", async (event) => {	
-		try{
+		if(event.t === "MESSAGE_REACTION_REMOVE" || event.t === "MESSAGE_REACTION_ADD"){
+			
 			if(event.d.guild_id === "845682082306064404" && event.d.channel_id === listenChannelId){
 				const messageId = event.d.message_id;
 				const channelData = await client.channels.fetch(listenChannelId);
@@ -26,7 +27,7 @@ function suggestionPollListener(client, listenChannelId, receiveChannelId, tresh
 					receiveChannel.send({ embed: embedMessage });
 				}
 			}
-		}catch(err){}
+		}
 	});
 }
 
