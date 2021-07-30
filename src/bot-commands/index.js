@@ -189,7 +189,7 @@ function enableBotCommands(client){
 			message.channel.send({
 				content: `<@${message.author.id}>`,
 				embed: outParam
-			}).then(() => message.delete());
+			}).then(() => message.delete()).catch(()=>{});
 		}
 	});
 }
