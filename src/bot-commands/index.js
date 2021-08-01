@@ -144,7 +144,7 @@ function enableBotCommands(client){
 	///////////////////////////////////////////////////////////////////////////////////
 	let embedMsg = new Discord.MessageEmbed();
 	const showCommands = (dir) => {
-		embedMsg.setTitle("Available Commands");
+		embedMsg.setTitle(`Available Commands, Prefix: ${config.prefix}`);
 		embedMsg.setFooter("Note: Some commands are also available as slash commands");
 
 		const files = fs.readdirSync(path.join(__dirname, dir));
