@@ -37,8 +37,8 @@ client.on("ready", async () => {
 	enableBotCommands(client);
 	enableSlashCommands(client);
 	suggestionAutoReact(client);
-	suggestionPollListener(client, "845682082750922788", "870744348982145055", 10);
-	suggestionPollListener(client, "868907390752399370", "870744348982145055", 10);
+	suggestionPollListener(client, "845682082750922788", "870744348982145055", 10); // ben-discord
+	suggestionPollListener(client, "868907390752399370", "870744348982145055", 10); // ben-twitch
 
 	// let ticket = 0;
 	// client.on("message", message => {

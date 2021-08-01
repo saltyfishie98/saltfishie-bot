@@ -1,3 +1,8 @@
+/* 
+	give specified role (see verifyUserConfig.js) 
+	to the user that react in the channel 
+*/
+
 const { guildChannelList } = require("./config/verifyUserConfig");
 
 function verifyUser(client) {
