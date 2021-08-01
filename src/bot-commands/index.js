@@ -143,6 +143,12 @@ function enableBotCommands(client){
 
 	///////////////////////////////////////////////////////////////////////////////////
 	let embedMsg = new Discord.MessageEmbed();
+
+	const showCmdIgnoreList = [
+		"index.js",
+		"showRules.js"
+	];
+
 	const showCommands = (dir) => {
 		embedMsg.setTitle(`Available Commands, Prefix: ${config.prefix}`);
 		embedMsg.setFooter("Note: Some commands are also available as slash commands");
@@ -154,7 +160,7 @@ function enableBotCommands(client){
 			
 			if(stat.isDirectory()){
 				showCommands(path.join(dir, file));
-			} else if(file !== "index.js" && file !== "showRules.js") {
+			} else if(!showCmdIgnoreList.includes(file)) {
 				const option = require(path.join(__dirname, dir, file));
 				embedMsg.addField(option.commands[0], option.shortDesc || "unspecified");
 				// console.log(embedMsg);
