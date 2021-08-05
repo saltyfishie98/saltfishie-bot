@@ -1,11 +1,20 @@
 module.exports = {
 	commands: ["ping"],
 	shortDesc: "Ping hosting server for respond",
-	minArgs: 0,
 	maxArgs: 0,
 	callback: (message, args, text) => {
-		message.channel.send("Pong!");
-	},
-	requiredRoles: [],
-	requiredPermissions: []
+		message.channel.send("calculating...").then(
+			result => {
+				const ping = result.createdTimestamp - message.createdTimestamp;
+
+				result.edit({
+					content: "",
+					embed:{
+						title: "Pong!",
+						description: `Latency: ${ping}ms`
+					}
+				});
+			}
+		);
+	}
 };
