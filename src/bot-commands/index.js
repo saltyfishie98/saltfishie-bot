@@ -47,48 +47,88 @@ function validatePermission(permissions){
 	}
 }
 
+let allCommands = [];
+let ran = false;
 function botCommand(client, commandOptions){
-	let {
-		commands,
-		expectedArgs = "",
-		permissionError = "you do not have the permission to run this command",
-		minArgs = 0,
-		maxArgs = null,
-		permissions = [],
-		requiredRoles = [],
-		callback
-	} = commandOptions;
 
-	if(typeof commands === "string"){
-		commands = [commands];
-	}
-	console.log(`adding command "${commands[0]}"`);
+	const requiredProps = {
+		"commands": () => { return new Error("Unspecified command"); },
+		"expectedArgs": "",
+		"permissionError": "you do not have the permission to run this command",
+		"minArgs": 0,
+		"maxArgs": null,
+		"permissions": [],
+		"requiredRoles": [],
+		"callback": new Error("Unspecified callback")
+	};
 
-	if(permissions.length){
-		if(typeof permissions === "string"){
-			permissions = [permissions];
+
+	for(const properties in requiredProps){
+		if(typeof commandOptions[properties] === "undefined")
+			commandOptions[properties] = requiredProps[properties];
+		
+		if(typeof commandOptions.callback === "object"){
+			console.log(commandOptions.callback);
 		}
-		validatePermission(permissions);
+
+		// console.log(typeof commandOptions.commands);
+		if(typeof commandOptions.commands === "function"){
+			console.log(commandOptions.commands());
+		}
 	}
 
-	client.on("message", message => {
-		if(message.author.bot) return;
+	if(typeof commandOptions.commands === "string"){
+		commandOptions.commands = [commandOptions.commands];
+	}
 
-		const { member, content, guild } = message;
+	for(let i = 0; i < commandOptions.commands.length; i++){
+		commandOptions.commands[i] = commandOptions.commands[i].toLowerCase();
+	}
 
-		for (const alias of commands){
-			if(content.toLowerCase().startsWith(`${config.prefix}${alias.toLowerCase()}`)){
+	// console.log(commandOptions);
+	if(typeof commandOptions.permissions === "string"){
+		commandOptions.permissions = [commandOptions.permissions];
+	}
+	validatePermission(commandOptions.permissions);
+	
+	console.log(`adding command "${commandOptions.commands[0]}"`);
+
+	// this is a bodge to fix "MaxListenersExceededWarning"
+	allCommands.push(commandOptions);
+	if(!ran){
+		ran = true;
+		client.on("message", message => {
+			const { member, content, guild } = message;
+
+			for(const cmd of allCommands){
+				if(message.author.bot) return;
+
+				// check args length
+				const args = content.split(/[ ]+/);
+				const inCommand = args[0].replace(`${config.prefix}`, "");
+				args.shift();
+				
+				if(!cmd.commands.includes(inCommand.toLowerCase())) continue;			
+				
+				if(args.length < cmd.minArgs || (cmd.maxArgs !== null && args.length > cmd.maxArgs)){
+					message.reply({
+						embed: cmd.expectedArgs || { title: "unspecified" }
+					});
+					return;
+				}
 				
 				// check permissions
-				for(const permission of permissions){
+				// console.log("Permissions ", cmd.permissions);
+				for(const permission of cmd.permissions){
 					if(!member.hasPermission(permission)){
-						message.reply(permissionError);
+						message.reply(cmd.permissionError);
 						return;
 					}
 				}
 
 				// check roles
-				for(const requiredRole of requiredRoles){
+				// console.log("roles ", cmd.requiredRoles);
+				for(const requiredRole of cmd.requiredRoles){
 					let guildHas = false;
 					let memberHas = false;
 
@@ -101,28 +141,21 @@ function botCommand(client, commandOptions){
 					}
 				}
 
-				// check args length
-				const args = content.split(/[ ]+/);
-				args.shift();
-				if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
-					message.reply({
-						embed: expectedArgs
-					});
-					return;
-				}
 
-				callback(message, args, args.join(" "));
+				cmd.callback(message, args, args.join(" "));
 
-				return;
+				return;	
 			}
-		}
-	});
+		});
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const path = require("path");
 const fs = require("fs");
 const Discord = require("discord.js");
+const { callback } = require("./commons/ping");
+const { type } = require("os");
 
 function enableBotCommands(client){
 	const readCommands = dir => {
