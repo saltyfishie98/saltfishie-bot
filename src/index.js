@@ -29,7 +29,6 @@ const {
 // const { roleReaction } = require("./helper/roleReaction");
 // const { firstMessage } = require("./helper/firstMessage");
 
-
 // const benGuildId = "845682082306064404";
 client.on("ready", async () => {
 	console.log("Discordjs: Ready!\n");

@@ -1,3 +1,5 @@
+const helper = require("../../../webassembly/helper.js");
+
 module.exports = {
 	commands: ["ratemywaifu", "rateMyWaifu"],
 	shortDesc: "Give the definitive rating to your waifu",
@@ -20,7 +22,6 @@ module.exports = {
 	},
 	minArgs: 1,
 	callback: async (message, args, text) =>{
-		let rating = Math.floor(Math.random() * 10);
-		message.reply(`erm... I'll give ${rating}/10`);
+		message.reply(`ermm... I'll give ${helper.genRandomNum(10)}/10`);
 	}
 };

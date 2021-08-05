@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: emcc build active file",
+			"command": "emcc",
+			"args": [
+				"--bind",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}.js"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$emcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: emcc"
+		}
+	]
+}
