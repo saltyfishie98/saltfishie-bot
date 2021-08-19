@@ -171,3 +171,20 @@ announceBenStreamChange(client);
 // benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
 // benPortal.subscription("create", registerSubUrl);
 // benPortal.subscription("create", registerSubUrl, "channel.update");
+
+///////////////////////////////////////////////////////////////////////////////////////
+const helper = require("../webassembly/helper.js");
+
+let result = helper.onRuntimeInitialized = () => {
+	const fillArray = helper.cwrap("fillArray", null, ["number", "number"]);
+
+	let buffer;
+	try{
+		let nByte = 4;
+		let length = 20;
+		buffer = helper._malloc(length*nByte);
+		fillArray(buffer, length);
+	}finally{
+		helper._free(buffer);
+	}
+};

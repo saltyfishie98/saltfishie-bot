@@ -62,7 +62,6 @@ function botCommand(client, commandOptions){
 		"callback": new Error("Unspecified callback")
 	};
 
-
 	for(const properties in requiredProps){
 		if(typeof commandOptions[properties] === "undefined")
 			commandOptions[properties] = requiredProps[properties];
@@ -154,8 +153,6 @@ function botCommand(client, commandOptions){
 const path = require("path");
 const fs = require("fs");
 const Discord = require("discord.js");
-const { callback } = require("./commons/ping");
-const { type } = require("os");
 
 function enableBotCommands(client){
 	const readCommands = dir => {

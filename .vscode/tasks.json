@@ -7,6 +7,10 @@
 			"command": "emcc",
 			"args": [
 				"--bind",
+				"-s",
+				"EXPORTED_RUNTIME_METHODS=['cwrap']",
+				"-s",
+				"EXPORTED_FUNCTIONS=['_fillArray']",
 				"${file}",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}.js"
@@ -14,9 +18,6 @@
 			"options": {
 				"cwd": "${fileDirname}"
 			},
-			"problemMatcher": [
-				"$emcc"
-			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
