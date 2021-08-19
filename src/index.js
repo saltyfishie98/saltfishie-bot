@@ -5,7 +5,8 @@ dotenv.config();
 const { 
 	runServer,
 	myPortal,
-	benPortal
+	benPortal,
+	subscriptionsPortal
 } = require("./helper");
 
 const signingSecretArry = [
@@ -37,6 +38,7 @@ client.on("ready", async () => {
 	suggestionAutoReact(client);
 	suggestionPollListener(client, "845682082750922788", "870744348982145055", 10); // ben-discord
 	suggestionPollListener(client, "868907390752399370", "870744348982145055", 10); // ben-twitch
+});
 
 client.login(process.env.TOKEN);
 
@@ -61,6 +63,8 @@ announceTestStreamchange(client);
 announceMyStreamChange(client);
 announceBenStreamChange(client);
 
+subscriptionsPortal.queryAccessToken(process.env.BEN_TWITCH_ACCESS_TOKEN);
+
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {
 // 	let res = await (benPortal.queryChannelInfo());
@@ -76,7 +80,6 @@ announceBenStreamChange(client);
 // searchChannelData()
 
 // const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhooks";
-// myPortal.queryAccessToken();
 // myPortal.subscription("query");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("delete", "");
@@ -85,7 +88,6 @@ announceBenStreamChange(client);
 // myPortal.subscription("create", registerSubUrl);
 // myPortal.subscription("create", registerSubUrl, "channel.update");
 
-// benPortal.queryAccessToken();
 // benPortal.subscription("query");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("delete", "");

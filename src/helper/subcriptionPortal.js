@@ -82,7 +82,7 @@ class subscriptionsPortal {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
-	async requestAccessToken(clientId = this.twitchClientId, clientSecret = this.twitchSigningSecret) {
+	static async requestAccessToken(clientId, clientSecret) {
 		const url = "https://id.twitch.tv/oauth2/token";
 		const Params = {
 			headers: { "Content-Type": "application/json" },
@@ -101,7 +101,7 @@ class subscriptionsPortal {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
-	revokeAccessToken(clientId = this.twitchClientId, accessToken = this.twitchAccessToken) {
+	static revokeAccessToken(clientId, accessToken) {
 		const url = `https://id.twitch.tv/oauth2/revoke?client_id=${clientId}&token=${accessToken}`;
 		axios.post(url)
 			.then(res => {
@@ -115,7 +115,7 @@ class subscriptionsPortal {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
-	queryAccessToken(accessToken = this.twitchAccessToken) {
+	static queryAccessToken(accessToken) {
 		const url = "https://id.twitch.tv/oauth2/validate";
 		axios({
 			method: "get",
@@ -128,7 +128,8 @@ class subscriptionsPortal {
 	async queryChannelInfo(
 		broadcastId = this.twitchBroadcastId,
 		accessToken = this.twitchAccessToken,
-		clientId = this.twitchClientId) {
+		clientId = this.twitchClientId
+	) {
 		let url = "";
 		url = `https://api.twitch.tv/helix/channels?broadcaster_id=${broadcastId}`;
 
@@ -145,7 +146,8 @@ class subscriptionsPortal {
 	async searchChannelInfo(
 		broadcastName,
 		accessToken = this.twitchAccessToken,
-		clientId = this.twitchClientId) {
+		clientId = this.twitchClientId
+	) {
 		let url = "";
 		url = `https://api.twitch.tv/helix/search/channels?query=${broadcastName}`;
 
