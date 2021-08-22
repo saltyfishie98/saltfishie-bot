@@ -3,6 +3,8 @@
 	review channel 
 */
 
+const configJson = require("../config/config.json");
+
 /**
  * @brief listen to specified suggestion channels for when a suggestion's like/dislike magnitude pass treshold
  * 
@@ -15,7 +17,7 @@ function suggestionPollListener(client, listenChannelId, receiveChannelId, tresh
 	client.on("raw", async (event) => {	
 		if(event.t === "MESSAGE_REACTION_REMOVE" || event.t === "MESSAGE_REACTION_ADD"){
 			try{
-				if(event.d.guild_id === "845682082306064404" && event.d.channel_id === listenChannelId){
+				if(event.d.guild_id === configJson.benGuildId && event.d.channel_id === listenChannelId){
 					const messageId = event.d.message_id;
 					const channelData = await client.channels.fetch(listenChannelId);
 					const messageData = await channelData.messages.fetch(messageId);

@@ -1,7 +1,8 @@
 const Discord = require("discord.js");
+const configJson = require("../helper/config/config.json");
 
 // async function enableSlashCommands(client){
-// 	const benGuildId = "845682082306064404";
+// const benGuildId = configJson.benGuildId;
 // 	function testSlashCmdPortal(guildId){
 // 		const app = client.api.applications(client.user.id);
 // 		if(guildId){

@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev-run": "nodemon ./src/index.js",
-		"dev-build": "set NODE_ENV=development&&node ./src/index.js",
-		"start": "node ./src/index.js"
+		"dev-run": "nodemon ./src/main.js",
+		"dev-build": "set NODE_ENV=development&&node ./src/main.js",
+		"start": "node ./src/main.js"
 	},
 	"keywords": [],
 	"author": "",

@@ -1,4 +1,6 @@
-const benGuildId = "845682082306064404";
+const configJson = require("../helper/config/config.json");
+
+const benGuildId = configJson.benGuildId;
 async function sCommandPortal(client){
 	function testSlashCmdPortal(guildId){
 		const app = client.api.applications(client.user.id);

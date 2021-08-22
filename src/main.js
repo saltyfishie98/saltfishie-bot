@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
+const configJson = require("./helper/config/config.json");
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const { 
@@ -25,19 +26,18 @@ const { enableSlashCommands } = require("./slash-commands");
 const { 
 	verifyUser,
 	suggestionAutoReact, 
-	suggestionPollListener
+	runSuggestionPollListener
 } = require("./helper");
 
 
-// const benGuildId = "845682082306064404";
+// const benGuildId = configJson.benGuildId;
 client.on("ready", async () => {
 	console.log("Discordjs: Ready!\n");
 	verifyUser(client);
 	enableBotCommands(client);
 	enableSlashCommands(client);
 	suggestionAutoReact(client);
-	suggestionPollListener(client, "845682082750922788", "870744348982145055", 10); // ben-discord
-	suggestionPollListener(client, "868907390752399370", "870744348982145055", 10); // ben-twitch
+	runSuggestionPollListener(client);
 });
 
 client.login(process.env.TOKEN);

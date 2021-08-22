@@ -1,12 +1,26 @@
+const axios = require("axios").default;
+
 const Express = require("express");
 const app = Express();
 const path = require("path");
 const port = process.env.PORT || 3000;
 
-const { wakeDyno } = require("./herokuWake");
 const webhookEventHandler = require("../webhookEvent");
 
 const crypto = require("crypto");
+
+function wakeDyno(url, options = {}) {
+	const { interval = 29, logging = true } = options;
+	const milliseconds = interval * 60000;
+
+	setTimeout(() => {
+		axios.get(url)
+			.then((res) => logging && console.log(res.statusText))
+			.catch(() => logging && console.log("Error attempting to wake the dyno"))
+			.finally(() => wakeDyno(url, options));
+
+	}, milliseconds);
+}
 
 function runServer(twitchSigningSecret) {
 	let validSignature = false;

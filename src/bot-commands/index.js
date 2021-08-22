@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../helper/config/config.json");
 
 function validatePermission(permissions){
 	const validPermissions = [
