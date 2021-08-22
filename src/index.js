@@ -6,7 +6,7 @@ const {
 	runServer,
 	myPortal,
 	benPortal,
-	subscriptionsPortal
+	// subscriptionsPortal
 } = require("./helper");
 
 const signingSecretArry = [
@@ -63,7 +63,7 @@ announceTestStreamchange(client);
 announceMyStreamChange(client);
 announceBenStreamChange(client);
 
-subscriptionsPortal.queryAccessToken(process.env.BEN_TWITCH_ACCESS_TOKEN);
+// subscriptionsPortal.queryAccessToken(process.env.BEN_TWITCH_ACCESS_TOKEN);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {
@@ -83,15 +83,15 @@ subscriptionsPortal.queryAccessToken(process.env.BEN_TWITCH_ACCESS_TOKEN);
 // myPortal.subscription("query");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("delete", "");
-// myPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks");
-// myPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
+// myPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks");
+// myPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks", "channel.update");
 // myPortal.subscription("create", registerSubUrl);
 // myPortal.subscription("create", registerSubUrl, "channel.update");
 
 // benPortal.subscription("query");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("delete", "");
-// benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks");
+// benPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks");
 // benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
 // benPortal.subscription("create", registerSubUrl);
 // benPortal.subscription("create", registerSubUrl, "channel.update");

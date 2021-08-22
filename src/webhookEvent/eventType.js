@@ -6,28 +6,6 @@ const announcer = new Events();
 
 const { myPortal } = require("../helper/subcriptionPortal");
 
-// Streamup
-///////////////////////////////////////////////////////////////////////////////////////
-function streamup(reqBody) {
-	switch (reqBody.event.broadcaster_user_id) {
-		case `${process.env.TWITCH_BROADCASTER_ID}`:
-			announcer.emit("my-streamup");
-			break;
-
-		case `${process.env.BEN_TWITCH_BROADCASTER_ID}`:
-			announcer.emit("ben-streamup");
-			break;
-
-		default:
-			// announcer.emit("ben-streamup");
-			announcer.emit("my-streamup");
-			announcer.emit("test-streamup");
-			break;
-	}
-}
-
-// Stream-change
-///////////////////////////////////////////////////////////////////////////////////////
 async function toEmitStreamChange(channelName, broadcasterId, eventId) {
 	let myData = await myPortal.searchChannelInfo(channelName);
 
@@ -47,41 +25,49 @@ async function toEmitStreamChange(channelName, broadcasterId, eventId) {
 	}
 }
 
-function streamChange(reqBody) {
-	switch (reqBody.event.broadcaster_user_id) {
-		case `${process.env.TWITCH_BROADCASTER_ID}`:
-			toEmitStreamChange(
-				"saltyfishie98",
-				process.env.TWITCH_BROADCASTER_ID,
-				"my-streamchange"
-			);
-			break;
+class Stream {
+	constructor(channelName, broadcasterId) {
+		this._channelName = channelName;
+		this._broadcasterId = broadcasterId;
+		this._streamChangeId = null;
+		this._streamupId = null;
+	}
 
-		case `${process.env.BEN_TWITCH_BROADCASTER_ID}`:
-			toEmitStreamChange(
-				"benangz",
-				process.env.BEN_TWITCH_BROADCASTER_ID,
-				"ben-streamchange"
-			);
-			break;
+	setStreamUpEventId(eventId) {
+		this._streamupId = eventId;
+	}
 
-		default:
-			toEmitStreamChange(
-				"saltyfishie98", process.env.TWITCH_BROADCASTER_ID, "my-streamchange"
-			);
+	setStreamChangeEventId(eventId) {
+		this._streamChangeId = eventId;
+	}
 
-			// toEmitStreamChange(
-			// 	"benangz", process.env.BEN_TWITCH_BROADCASTER_ID, "ben-streamchange"
-			// );
+	up(reqBody) {
+		if (this._streamupId !== null) {
+			if (reqBody.event.broadcaster_user_id === this._broadcasterId) {
+				announcer.emit(`${this._streamupId}`);
+			}
+		} else if (this._streamupId === null) {
+			console.log("Warning: Stream::up: streamupId not set");
+		} 
+	}
 
-			announcer.emit("test-streamchange");
-			break;
+	change(reqBody) {
+		if (this._streamChangeId !== null) {
+			if (reqBody.event.broadcaster_user_id === this._broadcasterId) {
+				toEmitStreamChange(
+					this._channelName,
+					this._broadcasterId,
+					this._streamChangeId
+				);
+			}
+		} else if (this._streamChangeId === null) {
+			console.log("Warning: Stream::change: streamChangeId not set");
+
+		}
 	}
 }
-///////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = {
-	streamup,
-	streamChange,
 	announcer,
+	Stream,
 };
