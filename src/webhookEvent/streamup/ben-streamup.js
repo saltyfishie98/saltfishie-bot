@@ -27,7 +27,7 @@ async function announceBenStreamup(client) {
 				fields: [
 					{
 						name: "Currently streaming: ",
-						value: `${channelData.game_name}‎‎‎‎‏‏ ━ *${channelData.title}*`
+						value: `${channelData.game_name}‎‎‎‎‏‏ ━ "*${channelData.title}*"`
 					},
 					{ name: "\u200B", value: "\u200B" },
 				],

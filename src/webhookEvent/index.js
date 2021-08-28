@@ -1,6 +1,6 @@
 const { Stream, announcer } = require("./eventType");
 
-const test = true;
+const test = false;
 
 const MyStream = new Stream("saltyfishie98", process.env.TWITCH_BROADCASTER_ID);
 MyStream.setStreamUpEventId("my-streamup");
@@ -20,7 +20,7 @@ module.exports = (reqBody) => {
 			break;
 
 		case "channel.update":
-			if(test) announcer.emit("ben-streamchange");
+			if(test) announcer.emit("test-streamup");
 
 			MyStream.change(reqBody);
 			BenStream.change(reqBody);

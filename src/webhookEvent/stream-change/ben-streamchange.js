@@ -18,7 +18,7 @@ async function announceBenStreamChange(client) {
 				fields: [
 					{
 						name: "Currently streaming: ",
-						value: `${name} ━ ‎‎‎‎‏‏*${title}*`
+						value: `${name} ━ "‎‎‎‎‏‏*${title}*"`
 					},
 					{ name: "\u200B", value: "\u200B" },
 				],
