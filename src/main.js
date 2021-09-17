@@ -1,13 +1,13 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const configJson = require("./helper/config/config.json");
+// const configJson = require("./helper/config/config.json");
 
 ///////////////////////////////////////////////////////////////////////////////////////
 const { 
 	runServer,
 	myPortal,
 	benPortal,
-	// subscriptionsPortal
+	subscriptionsPortal
 } = require("./helper");
 
 const signingSecretArry = [
@@ -64,6 +64,11 @@ announceMyStreamChange(client);
 announceBenStreamChange(client);
 
 // subscriptionsPortal.queryAccessToken(process.env.BEN_TWITCH_ACCESS_TOKEN);
+// async function reqAcToken(){
+// 	let d = await subscriptionsPortal.requestAccessToken(process.env.BEN_TWITCH_CLIENT_ID, process.env.BEN_TWITCH_CLIENT_SECRET);
+// 	console.log(d);
+// }
+// reqAcToken();
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {

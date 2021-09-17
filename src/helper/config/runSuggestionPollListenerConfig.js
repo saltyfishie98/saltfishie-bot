@@ -7,7 +7,7 @@ const autoReactChannelList = [
 ];
 
 function runSuggestionPollListener(client){
-	suggestionPollListener(client, autoReactChannelList[0], "870744348982145055", 10); // ben-discord
+	suggestionPollListener(client, autoReactChannelList[0], "870744348982145055", 1); // ben-discord
 	suggestionPollListener(client, autoReactChannelList[1], "870744348982145055", 10); // ben-twitch
 }
 

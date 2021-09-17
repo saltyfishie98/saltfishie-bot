@@ -42,7 +42,7 @@ function suggestionPollListener(client, listenChannelId, receiveChannelId, tresh
 						receiveChannel.send({ embed: embedMessage });
 					}
 				}
-			}catch(err){}
+			}catch(err){console.log(err);}
 		}
 	});
 }
