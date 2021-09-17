@@ -29,6 +29,8 @@ const {
 	runSuggestionPollListener
 } = require("./helper");
 
+const { registerSlashCommands } = require("./slash-commands/slashCommandPortal");
+
 
 // const benGuildId = configJson.benGuildId;
 client.on("ready", async () => {
@@ -38,6 +40,7 @@ client.on("ready", async () => {
 	enableSlashCommands(client);
 	suggestionAutoReact(client);
 	runSuggestionPollListener(client);
+	// registerSlashCommands(client);
 });
 
 client.login(process.env.TOKEN);

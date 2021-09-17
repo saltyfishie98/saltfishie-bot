@@ -38,7 +38,7 @@ module.exports = {
 				channel.bulkDelete(fetched);
 			}
 		}catch(err) {
-			console.log(err);
+			await replyTo(interaction, "You can only bulk delete messages that are under 14 days old.");
 		}
 	}
 };
