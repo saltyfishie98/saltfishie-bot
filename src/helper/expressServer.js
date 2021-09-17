@@ -79,7 +79,7 @@ function runServer(twitchSigningSecret) {
 
 const listener = app.listen(port, () => {
 	const opts = { interval: 20 };
-	wakeDyno("https://saltfishie-bot.herokuapp.com", opts);
+	wakeDyno("https://saltybottie.herokuapp.com", opts);
 	console.log("Express: Your app is listening on port " + listener.address().port);
 });
 
