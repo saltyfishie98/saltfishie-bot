@@ -70,6 +70,15 @@ announceBenStreamChange(client);
 // }
 // reqAcToken();
 
+// subscriptionsPortal.queryAccessToken(process.env.TWITCH_ACCESS_TOKEN);
+// subscriptionsPortal.revokeAccessToken(process.env.TWITCH_CLIENT_ID, process.env.TWITCH_ACCESS_TOKEN);
+// subscriptionsPortal.queryAccessToken(process.env.TWITCH_ACCESS_TOKEN);
+// async function myreqAcToken(){
+// 	let d = await subscriptionsPortal.requestAccessToken(process.env.TWITCH_CLIENT_ID, process.env.TWITCH_CLIENT_SECRET);
+// 	console.log(d);
+// }
+// myreqAcToken();
+
 ///////////////////////////////////////////////////////////////////////////////////////
 // async function checkChannelData() {
 // 	let res = await (benPortal.queryChannelInfo());
@@ -84,19 +93,15 @@ announceBenStreamChange(client);
 // }
 // searchChannelData()
 
-// const registerSubUrl = "https://saltfishie-bot.herokuapp.com/webhooks";
+// const registerSubUrl = "https://saltybottie.herokuapp.com/webhooks";
 // myPortal.subscription("query");
 // myPortal.subscription("delete", "");
 // myPortal.subscription("delete", "");
-// myPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks");
-// myPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks", "channel.update");
 // myPortal.subscription("create", registerSubUrl);
 // myPortal.subscription("create", registerSubUrl, "channel.update");
 
 // benPortal.subscription("query");
 // benPortal.subscription("delete", "");
 // benPortal.subscription("delete", "");
-// benPortal.subscription("create", "https://4b69-2001-e68-541d-a9fc-a51e-8289-a99-80d3.ngrok.io/webhooks");
-// benPortal.subscription("create", "https://01360d3cab87.ngrok.io/webhooks", "channel.update");
 // benPortal.subscription("create", registerSubUrl);
 // benPortal.subscription("create", registerSubUrl, "channel.update");
