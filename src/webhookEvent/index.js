@@ -15,14 +15,14 @@ module.exports = (reqBody) => {
 		case "stream.online":
 			if(test) announcer.emit("test-streamup");
 
-			MyStream.up(reqBody);
+			// MyStream.up(reqBody);
 			BenStream.up(reqBody);
 			break;
 
 		case "channel.update":
 			if(test) announcer.emit("test-streamup");
 
-			MyStream.change(reqBody);
+			// MyStream.change(reqBody);
 			BenStream.change(reqBody);
 			break;
 	}
